@@ -83,10 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
     <div>
-        <h2 class="fw-bold text-white mb-1"><i class="fas fa-balance-scale text-info me-2"></i> 12. مقارنات PHP الضعيفة وتغيير الأنواع (Type Juggling)</h2>
-        <p class="text-muted mb-0">سلوك خاص بلغة PHP ينشأ عند استخدام المقارنة الضعيفة (<code>==</code>) بدلاً من الصارمة (<code>===</code>)، أو سوء استخدام دوال المقارنة مثل <code>strcmp()</code> والهاشات السحرية (Magic Hashes).</p>
+        <h2 class="fw-bold text-white mb-2"><i class="fas fa-balance-scale text-info me-2"></i> 12. مقارنات PHP الضعيفة وتغيير الأنواع (Type Juggling)</h2>
+        <p class="challenge-title-desc mb-0">سلوك خاص بلغة PHP ينشأ عند استخدام المقارنة الضعيفة (<code>==</code>) بدلاً من الصارمة (<code>===</code>)، أو سوء استخدام دوال المقارنة مثل <code>strcmp()</code> والهاشات السحرية (Magic Hashes).</p>
     </div>
-    <span class="badge bg-info text-dark fs-6 px-3 py-2"><i class="fas fa-code-branch me-1"></i> ثغرة في منطق المقارنة (Logic Flaw)</span>
+    <span class="badge bg-info text-dark fs-6 px-3 py-2 text-nowrap"><i class="fas fa-code-branch me-1"></i> ثغرة منطقية: Logic Flaw</span>
 </div>
 
 <!-- صندوق الشرح المفصل لآلية الثغرة -->

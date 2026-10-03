@@ -15,6 +15,8 @@ $sec_level = get_security_level();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $page_title ?? 'مختبر الجوكر الأمني | Joker Security Lab' ?></title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/joker_logo.png">
     <!-- Bootstrap 5 RTL -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <!-- Font Awesome 6 -->
@@ -109,10 +111,17 @@ $sec_level = get_security_level();
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-cyber sticky-top px-3 py-2">
     <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-4 text-white" href="../index.php">
-            <span class="text-danger me-2 fs-3">🃏</span>
-            <span class="glow-cyan text-info">مختبر الجوكر الأمني</span>
-            <span class="badge bg-secondary ms-2 fs-6">v2.0 Web Sec Lab</span>
+        <a class="navbar-brand d-flex align-items-center text-white me-3" href="../index.php">
+            <img src="../assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info shadow-sm me-2" style="width: 44px; height: 44px; object-fit: cover; box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">
+            <div>
+                <div class="d-flex align-items-center">
+                    <span class="glow-cyan text-info fw-bold fs-5">مختبر الجوكر الأمني</span>
+                    <span class="badge bg-secondary ms-2" style="font-size: 0.72rem;">v2.0 Web Sec Lab</span>
+                </div>
+                <div class="fw-bold text-warning" style="font-size: 0.78rem;">
+                    <i class="fas fa-shield-alt text-info me-1"></i> إعداد وتطوير: <strong class="text-white">الجوكر الفلسطيني احمد سليم</strong> 🇵🇸
+                </div>
+            </div>
         </a>
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
@@ -134,7 +143,7 @@ $sec_level = get_security_level();
                 <li class="nav-item dropdown me-3">
                     <button class="btn btn-sm <?= $sec_level === 'low' ? 'btn-danger' : 'btn-success' ?> dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
                         <i class="fas fa-shield-alt me-1"></i>
-                        المستوى: <?= $sec_level === 'low' ? 'ضعيف (Vulnerable)' : 'محمي (Secure)' ?>
+                        المستوى: <?= $sec_level === 'low' ? 'ضعيف [Vulnerable]' : 'محمي [Secure]' ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-dark">
                         <li>
@@ -158,11 +167,6 @@ $sec_level = get_security_level();
                 <a href="../reset.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
                     <i class="fas fa-redo-alt me-1"></i> إعادة ضبط البيانات
                 </a>
-                <div class="d-none d-xl-inline-block text-nowrap py-1 px-3 rounded-pill bg-black border border-warning shadow-sm ms-2">
-                    <span class="text-white-50 small">إعداد: </span>
-                    <strong class="text-warning small">الجوكر الفلسطيني احمد سليم</strong>
-                    <span class="text-danger small ms-1">🇵🇸</span>
-                </div>
             </div>
         </div>
     </div>

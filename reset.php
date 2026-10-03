@@ -156,6 +156,8 @@ if (!isset($_SERVER['SCRIPT_FILENAME']) || realpath($_SERVER['SCRIPT_FILENAME'])
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إعادة ضبط المختبر | مختبر الجوكر الأمني</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/joker_logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -168,7 +170,7 @@ if (!isset($_SERVER['SCRIPT_FILENAME']) || realpath($_SERVER['SCRIPT_FILENAME'])
     <div class="container" style="max-width: 580px;">
         <div class="card shadow-lg text-center p-4">
             <div class="mb-3">
-                <i class="fas fa-redo-alt text-warning fa-3x mb-2"></i>
+                <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info mb-3" style="width: 72px; height: 72px; object-fit: cover; box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);">
                 <h3 class="fw-bold text-white">إعادة ضبط مختبر الجوكر الأمني</h3>
                 <p class="text-secondary small">إعادة بناء قاعدة البيانات الافتراضية وحذف الملفات المرفوعة</p>
             </div>

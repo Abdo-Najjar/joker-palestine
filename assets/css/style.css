@@ -90,4 +90,21 @@ footer .text-white-50 {
     color: #cbd5e1 !important;
 }
 
+/* تحسين تباين النصوص التوضيحية وتفاصيل التحديات */
+.text-muted, p.text-muted, small.text-muted, span.text-muted {
+    color: #cbd5e1 !important;
+}
+
+.challenge-title-desc {
+    color: #cbd5e1 !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ضبط شريط التنقل العلوي ليكون مرتباً وواضحاً على كل الشاشات */
+.navbar-cyber .navbar-brand {
+    line-height: 1.2;
+}
+
+
 

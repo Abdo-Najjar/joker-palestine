@@ -16,6 +16,8 @@ unset($_SESSION['flash_msg']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الرئيسية | مختبر الجوكر الأمني لاختبار اختراق تطبيقات الويب</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/joker_logo.png">
     <!-- Bootstrap 5 RTL -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <!-- Font Awesome 6 -->
@@ -83,10 +85,17 @@ unset($_SESSION['flash_msg']);
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-cyber sticky-top px-3 py-2">
     <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center fw-bold fs-4 text-white" href="index.php">
-            <span class="text-danger me-2 fs-3">🃏</span>
-            <span class="text-info">مختبر الجوكر الأمني</span>
-            <span class="badge bg-secondary ms-2 fs-6">Joker Security Lab</span>
+        <a class="navbar-brand d-flex align-items-center text-white me-3" href="index.php">
+            <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info shadow-sm me-2" style="width: 44px; height: 44px; object-fit: cover; box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">
+            <div>
+                <div class="d-flex align-items-center">
+                    <span class="text-info fw-bold fs-5">مختبر الجوكر الأمني</span>
+                    <span class="badge bg-secondary ms-2" style="font-size: 0.72rem;">Joker Security Lab v2.0</span>
+                </div>
+                <div class="fw-bold text-warning" style="font-size: 0.78rem;">
+                    <i class="fas fa-shield-alt text-info me-1"></i> إعداد وتطوير: <strong class="text-white">الجوكر الفلسطيني احمد سليم</strong> 🇵🇸
+                </div>
+            </div>
         </a>
         
         <div class="d-flex align-items-center gap-2 ms-auto">
@@ -101,7 +110,7 @@ unset($_SESSION['flash_msg']);
             <div class="dropdown me-2">
                 <button class="btn btn-sm <?= $sec_level === 'low' ? 'btn-danger' : 'btn-success' ?> dropdown-toggle fw-bold" type="button" data-bs-toggle="dropdown">
                     <i class="fas fa-shield-alt me-1"></i>
-                    <?= $sec_level === 'low' ? 'المستوى: ضعيف (Low)' : 'المستوى: محمي (Secure)' ?>
+                    <?= $sec_level === 'low' ? 'المستوى: ضعيف [Low]' : 'المستوى: محمي [Secure]' ?>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark">
                     <li><a class="dropdown-item <?= $sec_level === 'low' ? 'active' : '' ?>" href="?set_sec=low"><span class="badge bg-danger me-2">Low</span> ضعيف (للتطبيق والشرح)</a></li>
@@ -115,11 +124,6 @@ unset($_SESSION['flash_msg']);
             <a href="reset.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
                 <i class="fas fa-redo-alt me-1"></i> إعادة ضبط المختبر
             </a>
-            <div class="d-none d-xl-inline-block text-nowrap py-1 px-3 rounded-pill bg-black border border-warning shadow-sm ms-2">
-                <span class="text-white-50 small">إعداد: </span>
-                <strong class="text-warning small">الجوكر الفلسطيني احمد سليم</strong>
-                <span class="text-danger small ms-1">🇵🇸</span>
-            </div>
         </div>
     </div>
 </nav>
@@ -138,8 +142,9 @@ unset($_SESSION['flash_msg']);
         <div class="row align-items-center">
             <div class="col-lg-8">
                 <div class="d-inline-flex align-items-center bg-dark bg-opacity-75 border border-info rounded-pill px-3 py-1 mb-3">
-                    <span class="text-danger me-2">🇵🇸</span>
+                    <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info me-2" style="width: 28px; height: 28px; object-fit: cover;">
                     <span class="text-white small fw-bold">إعداد وتطوير: <strong class="text-warning">الجوكر الفلسطيني احمد سليم</strong></span>
+                    <span class="text-danger ms-2">🇵🇸</span>
                 </div>
                 <h1 class="display-6 fw-bold text-white mb-2">
                     مختبر الجوكر الأمني لتطبيقات الويب
@@ -480,7 +485,8 @@ unset($_SESSION['flash_msg']);
         <p class="mb-2 text-info small">
             منصة تعليمية وتدريبية متكاملة لشرح وتطبيق أشهر ثغرات الويب وكيفية ترقيعها برمجياً
         </p>
-        <div class="mt-2 py-2 px-4 d-inline-block rounded-pill bg-black border border-warning shadow">
+        <div class="mt-2 py-2 px-4 d-inline-flex align-items-center rounded-pill bg-black border border-warning shadow">
+            <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-warning me-2" style="width: 32px; height: 32px; object-fit: cover;">
             <span class="text-white-50 me-1">إعداد وتطوير: </span>
             <strong class="text-warning fs-5">الجوكر الفلسطيني احمد سليم</strong>
             <span class="text-danger ms-1">🇵🇸</span>
