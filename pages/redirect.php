@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../config.php';
 $sec = get_security_level();
 $error = "";
@@ -27,7 +27,7 @@ if (isset($_GET['target'])) {
     }
 }
 
-$page_title = "التوجيه المفتوح (Open Redirect) | مختبر الجوكر الأمني";
+$page_title = "التوجيه المفتوح (Open Redirect) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

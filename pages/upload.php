@@ -1,5 +1,5 @@
-<?php
-$page_title = "رفع الملفات غير الآمن (Unrestricted File Upload) | مختبر الجوكر الأمني";
+﻿<?php
+$page_title = "رفع الملفات غير الآمن (Unrestricted File Upload) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $sec = get_security_level();

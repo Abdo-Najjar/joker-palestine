@@ -1,5 +1,5 @@
-<?php
-$page_title = "ثغرات السكربتات عبر المواقع (XSS) | مختبر الجوكر الأمني";
+﻿<?php
+$page_title = "ثغرات السكربتات عبر المواقع (XSS) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $db = get_db();

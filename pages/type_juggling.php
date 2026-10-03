@@ -1,5 +1,5 @@
-<?php
-$page_title = "مقارنات PHP الضعيفة (PHP Type Juggling) | مختبر الجوكر الأمني";
+﻿<?php
+$page_title = "مقارنات PHP الضعيفة (PHP Type Juggling) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $sec = get_security_level();

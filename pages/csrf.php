@@ -1,5 +1,5 @@
-<?php
-$page_title = "تزوير الطلبات عبر المواقع (CSRF) | مختبر الجوكر الأمني";
+﻿<?php
+$page_title = "تزوير الطلبات عبر المواقع (CSRF) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $db = get_db();

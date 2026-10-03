@@ -1,7 +1,7 @@
 <?php
 // ==============================================================================
 // إعادة ضبط قاعدة البيانات وملفات المشروع (Reset Database & Environment)
-// إعداد: الجوكر الفلسطيني احمد سليم
+// إعداد: المهندس احمد سليم
 // ==============================================================================
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -82,7 +82,7 @@ function reset_database() {
 
         $comments = [
             ['سالم الكعبي', 'مشروع ممتاز جداً ومفيد لكل المهتمين بالأمن السيبراني!'],
-            ['احمد سليم', 'أهلاً بكم في مختبر الجوكر الأمني، نتمنى لكم تجربة تعليمية ممتعة.']
+            ['احمد سليم', 'أهلاً بكم في مختبر الجوكر الفلسطيني، نتمنى لكم تجربة تعليمية ممتعة.']
         ];
         $stmt = $db->prepare("INSERT INTO comments (author, comment) VALUES (?, ?)");
         foreach ($comments as $c) {
@@ -123,7 +123,7 @@ function reset_database() {
 
         // إنشاء ملف افتراضي وملاحظة سرية لـ LFI
         $notes_file = __DIR__ . '/pages/secret_note.txt';
-        file_put_contents($notes_file, "ملف الملاحظات السرية للخادم:\n========================\nهذا الملف يحتوي على بيانات حساسة تابعة للنظام الداخلي.\nالعلم السري: FLAG{LFI_Local_File_Read_Exposed_8821}\nتم الحفظ بواسطة: الجوكر الفلسطيني احمد سليم.\n");
+        file_put_contents($notes_file, "ملف الملاحظات السرية للخادم:\n========================\nهذا الملف يحتوي على بيانات حساسة تابعة للنظام الداخلي.\nالعلم السري: FLAG{LFI_Local_File_Read_Exposed_8821}\nتم الحفظ بواسطة: المهندس احمد سليم.\n");
 
         return true;
     } catch (PDOException $e) {
@@ -157,7 +157,7 @@ if (!isset($_SERVER['SCRIPT_FILENAME']) || realpath($_SERVER['SCRIPT_FILENAME'])
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إعادة ضبط المختبر | مختبر الجوكر الأمني</title>
+    <title>إعادة ضبط المختبر | مختبر الجوكر الفلسطيني</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/joker_logo.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
@@ -173,7 +173,7 @@ if (!isset($_SERVER['SCRIPT_FILENAME']) || realpath($_SERVER['SCRIPT_FILENAME'])
         <div class="card shadow-lg text-center p-4">
             <div class="mb-3">
                 <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info mb-3" style="width: 72px; height: 72px; object-fit: cover; box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);">
-                <h3 class="fw-bold text-white">إعادة ضبط مختبر الجوكر الأمني</h3>
+                <h3 class="fw-bold text-white">إعادة ضبط مختبر الجوكر الفلسطيني</h3>
                 <p class="text-secondary small">إعادة بناء قاعدة البيانات الافتراضية وحذف الملفات المرفوعة</p>
             </div>
 
@@ -197,7 +197,7 @@ if (!isset($_SERVER['SCRIPT_FILENAME']) || realpath($_SERVER['SCRIPT_FILENAME'])
             </div>
 
             <div class="mt-4 pt-3 border-top border-secondary text-secondary small">
-                إعداد: <strong class="text-info">الجوكر الفلسطيني احمد سليم</strong>
+                إعداد وتطوير: <strong class="text-info">المهندس احمد سليم 🇵🇸</strong>
             </div>
         </div>
     </div>

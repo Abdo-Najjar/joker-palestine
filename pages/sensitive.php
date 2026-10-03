@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../config.php';
 $sec = get_security_level();
 
@@ -26,7 +26,7 @@ if (isset($_GET['download']) && $_GET['download'] === 'db') {
     }
 }
 
-$page_title = "كشف البيانات الحساسة وقاعدة البيانات | مختبر الجوكر الأمني";
+$page_title = "كشف البيانات الحساسة وقاعدة البيانات | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 ?>
 

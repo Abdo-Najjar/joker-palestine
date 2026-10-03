@@ -458,26 +458,6 @@ unset($_SESSION['flash_msg']);
 
     </div>
 
-    <!-- Instructor Instructions & Hosting Guide -->
-    <div class="card card-cyber p-4 mb-5 border-secondary">
-        <h4 class="text-warning fw-bold mb-3"><i class="fas fa-chalkboard-teacher me-2"></i> تعليمات تشغيل المختبر للمدرب والطلاب</h4>
-        <div class="row">
-            <div class="col-md-6 mb-3">
-                <h6 class="text-info fw-bold"><i class="fas fa-laptop me-1"></i> 1. التشغيل المحلي الفوري (Local Server):</h6>
-                <p class="text-muted small">يمكنك تشغيل المشروع فوراً دون الحاجة لأي برنامج إضافي فقط باستخدام سيرفر PHP المدمج:</p>
-                <pre class="bg-dark text-info p-2 rounded small" style="direction:ltr; text-align:left;"><code>php -S localhost:8000</code></pre>
-                <p class="text-muted small">ثم افتح المتصفح على: <code>http://localhost:8000</code></p>
-            </div>
-            <div class="col-md-6 mb-3">
-                <h6 class="text-info fw-bold"><i class="fas fa-cloud-upload-alt me-1"></i> 2. النشر على استضافة ويب (Web Hosting / cPanel):</h6>
-                <p class="text-muted small">ارفع جميع ملفات المشروع إلى مجلد <code>public_html</code> أو مجلد فرعي، وسيعمل المشروع مباشرة مع أي استضافة تدعم PHP 7.4 أو 8+ مع تفعيل ملحق SQLite.</p>
-                <div class="alert alert-warning py-1 small">
-                    <i class="fas fa-exclamation-triangle me-1"></i> <strong>تنبيه أمني:</strong> نظراً لأن المشروع مصمم عمداً ليحتوي على ثغرات حقيقية مثل Web Shell و Command Injection، يُنصح بحمايته بكلمة مرور عبر cPanel Directory Privacy إذا تم رفعه على استضافة عامة.
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <footer class="mt-5 py-4 border-top border-secondary text-center rounded-3 shadow" style="background-color: #0e1424;">

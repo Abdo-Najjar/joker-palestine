@@ -1,5 +1,5 @@
 <?php
-$page_title = "حقن أوامر النظام (Command Injection) | مختبر الجوكر الأمني";
+$page_title = "حقن أوامر النظام (Command Injection) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $sec = get_security_level();
@@ -66,13 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ip'])) {
 
         <form method="POST" class="row g-2 mb-3" style="max-width: 650px;">
             <div class="col-8">
-                <input type="text" id="cmdi-input" name="ip" dir="ltr" class="form-control font-monospace" style="direction:ltr; text-align:left;" placeholder="127.0.0.1 & whoami" value="<?= htmlspecialchars($_POST['ip'] ?? '127.0.0.1') ?>" required>
-                <div class="mt-2 d-flex flex-wrap align-items-center gap-1">
-                    <small class="text-muted me-1">بايلودات جاهزة للتجربة والتعلم:</small>
-                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('cmdi-input').value='127.0.0.1 & whoami';">127.0.0.1 & whoami</button>
-                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('cmdi-input').value='127.0.0.1 && whoami';">127.0.0.1 && whoami</button>
-                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('cmdi-input').value='127.0.0.1 & dir';">127.0.0.1 & dir</button>
-                </div>
+                <input type="text" id="cmdi-input" name="ip" dir="ltr" class="form-control font-monospace" style="direction:ltr; text-align:left;" placeholder="مثال: 127.0.0.1" value="<?= htmlspecialchars($_POST['ip'] ?? '127.0.0.1') ?>" required>
             </div>
             <div class="col-4">
                 <button type="submit" class="btn btn-danger fw-bold w-100"><i class="fas fa-play me-1"></i> تشغيل الفحص</button>

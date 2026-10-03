@@ -1,5 +1,5 @@
-<?php
-$page_title = "التحكم غير المباشر بالكائنات (IDOR) | مختبر الجوكر الأمني";
+﻿<?php
+$page_title = "التحكم غير المباشر بالكائنات (IDOR) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $db = get_db();

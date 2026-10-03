@@ -1,5 +1,5 @@
 <?php
-$page_title = "حقن قواعد البيانات (SQL Injection) | مختبر الجوكر الأمني";
+$page_title = "حقن قواعد البيانات (SQL Injection) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $db = get_db();
@@ -120,13 +120,7 @@ if (isset($_GET['search'])) {
             <input type="hidden" name="action" value="login">
             <div class="col-12">
                 <label class="form-label text-light">اسم المستخدم (Username):</label>
-                <input type="text" id="sqli-user-input" name="username" class="form-control font-monospace" placeholder="اسم المستخدم أو البايلود..." value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
-                <div class="mt-2 d-flex flex-wrap align-items-center gap-1">
-                    <small class="text-muted me-1">بايلودات جاهزة للتجربة والتعلم:</small>
-                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('sqli-user-input').value='admin\' --';">admin' --</button>
-                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('sqli-user-input').value='\' OR 1=1 --';">' OR 1=1 --</button>
-                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('sqli-user-input').value='admin\' OR \'1\'=\'1';">admin' OR '1'='1</button>
-                </div>
+                <input type="text" id="sqli-user-input" name="username" class="form-control font-monospace" placeholder="أدخل اسم المستخدم أو مدخل الحقن..." value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" required>
             </div>
             <div class="col-12">
                 <label class="form-label text-light">كلمة المرور (Password):</label>

@@ -1,5 +1,5 @@
-<?php
-$page_title = "تضمين الملفات واجتياز المسارات (LFI & Path Traversal) | مختبر الجوكر الأمني";
+﻿<?php
+$page_title = "تضمين الملفات واجتياز المسارات (LFI & Path Traversal) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
 $sec = get_security_level();
