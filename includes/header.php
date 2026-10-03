@@ -1,7 +1,7 @@
 <?php
 // ==============================================================================
-// Header Template | مختبر الجوكر الأمني
-// إعداد: الجوكر الفلسطيني احمد سليم
+// Header Template | مختبر الجوكر الفلسطيني
+// إعداد: المهندس احمد سليم
 // ==============================================================================
 
 require_once __DIR__ . '/../config.php';
@@ -14,7 +14,7 @@ $sec_level = get_security_level();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $page_title ?? 'مختبر الجوكر الأمني | Joker Security Lab' ?></title>
+    <title><?= $page_title ?? 'مختبر الجوكر الفلسطيني | Joker Security Lab' ?></title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../assets/images/joker_logo.png">
     <!-- Bootstrap 5 RTL -->
@@ -115,11 +115,11 @@ $sec_level = get_security_level();
             <img src="../assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info shadow-sm me-2" style="width: 44px; height: 44px; object-fit: cover; box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">
             <div>
                 <div class="d-flex align-items-center">
-                    <span class="glow-cyan text-info fw-bold fs-5">مختبر الجوكر الأمني</span>
+                    <span class="glow-cyan text-info fw-bold fs-5">مختبر الجوكر الفلسطيني</span>
                     <span class="badge bg-secondary ms-2" style="font-size: 0.72rem;">v2.0 Web Sec Lab</span>
                 </div>
                 <div class="fw-bold text-warning" style="font-size: 0.78rem;">
-                    <i class="fas fa-shield-alt text-info me-1"></i> إعداد وتطوير: <strong class="text-white">الجوكر الفلسطيني احمد سليم</strong> 🇵🇸
+                    <i class="fas fa-shield-alt text-info me-1"></i> إعداد وتطوير: <strong class="text-white">المهندس احمد سليم</strong> 🇵🇸
                 </div>
             </div>
         </a>
@@ -132,10 +132,13 @@ $sec_level = get_security_level();
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center">
                 <!-- CTF Solved Counter -->
                 <li class="nav-item me-3">
-                    <span class="badge bg-dark border border-warning text-warning p-2 fs-6 shadow-sm">
+                    <span class="badge bg-dark border border-warning text-warning p-2 fs-6 shadow-sm" style="cursor: pointer;" onclick="if(window.fullCelebrationBlast) window.fullCelebrationBlast();" title="اضغط للاحتفال بإنجازك بالأعلام! 🎊">
                         <i class="fas fa-flag me-1"></i> الأعلام المكتشفة: 
                         <strong class="text-white"><?= $score['solved'] ?></strong> / <?= $score['total'] ?> 
                         (<?= $score['percentage'] ?>%)
+                        <?php if ($score['solved'] > 0): ?>
+                            <span class="ms-1">🎉</span>
+                        <?php endif; ?>
                     </span>
                 </li>
 

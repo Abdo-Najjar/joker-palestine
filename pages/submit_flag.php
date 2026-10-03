@@ -18,7 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['flag_input'])) {
     }
 
     if ($matched_key) {
-        award_flag($matched_key);
+        award_flag($matched_key, true);
+        $_SESSION['celebration'] = [
+            'key' => $matched_key,
+            'title' => $CHALLENGE_FLAGS[$matched_key]['title'],
+            'flag' => $CHALLENGE_FLAGS[$matched_key]['flag'],
+            'is_new' => true
+        ];
         $_SESSION['flash_msg'] = [
             'type' => 'success',
             'text' => "🎉 أحسنت صنعاً! تم قبول العلم الخاص بتحدي: <strong>{$CHALLENGE_FLAGS[$matched_key]['title']}</strong> بنجاح!"

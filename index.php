@@ -1,7 +1,7 @@
 <?php
 // ==============================================================================
-// لوحة التحكم الرئيسية | مختبر الجوكر الأمني (Joker Security Lab)
-// إعداد: الجوكر الفلسطيني احمد سليم
+// لوحة التحكم الرئيسية | مختبر الجوكر الفلسطيني (Joker Security Lab)
+// إعداد: المهندس احمد سليم
 // ==============================================================================
 
 require_once __DIR__ . '/config.php';
@@ -15,7 +15,7 @@ unset($_SESSION['flash_msg']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الرئيسية | مختبر الجوكر الأمني لاختبار اختراق تطبيقات الويب</title>
+    <title>الرئيسية | مختبر الجوكر الفلسطيني لاختبار اختراق تطبيقات الويب</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/joker_logo.png">
     <!-- Bootstrap 5 RTL -->
@@ -89,21 +89,24 @@ unset($_SESSION['flash_msg']);
             <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info shadow-sm me-2" style="width: 44px; height: 44px; object-fit: cover; box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);">
             <div>
                 <div class="d-flex align-items-center">
-                    <span class="text-info fw-bold fs-5">مختبر الجوكر الأمني</span>
+                    <span class="text-info fw-bold fs-5">مختبر الجوكر الفلسطيني</span>
                     <span class="badge bg-secondary ms-2" style="font-size: 0.72rem;">Joker Security Lab v2.0</span>
                 </div>
                 <div class="fw-bold text-warning" style="font-size: 0.78rem;">
-                    <i class="fas fa-shield-alt text-info me-1"></i> إعداد وتطوير: <strong class="text-white">الجوكر الفلسطيني احمد سليم</strong> 🇵🇸
+                    <i class="fas fa-shield-alt text-info me-1"></i> إعداد وتطوير: <strong class="text-white">المهندس احمد سليم</strong> 🇵🇸
                 </div>
             </div>
         </a>
         
         <div class="d-flex align-items-center gap-2 ms-auto">
             <!-- CTF Solved Counter -->
-            <span class="badge bg-dark border border-warning text-warning p-2 fs-6 shadow-sm me-2">
-                <i class="fas fa-flag me-1"></i> الأعلام المكتشفة: 
+            <span class="badge bg-dark border border-warning text-warning p-2 fs-6 shadow-sm me-2" style="cursor: pointer;" onclick="if(window.fullCelebrationBlast) window.fullCelebrationBlast();" title="اضغط للاحتفال بإنجازك بالأعلام! 🎊">
+                <i class="fas fa-flag me-1 text-warning"></i> الأعلام المكتشفة: 
                 <strong class="text-white"><?= $score['solved'] ?></strong> / <?= $score['total'] ?> 
                 (<?= $score['percentage'] ?>%)
+                <?php if ($score['solved'] > 0): ?>
+                    <span class="ms-1">🎉</span>
+                <?php endif; ?>
             </span>
 
             <!-- Security Level Switcher -->
@@ -143,11 +146,11 @@ unset($_SESSION['flash_msg']);
             <div class="col-lg-8">
                 <div class="d-inline-flex align-items-center bg-dark bg-opacity-75 border border-info rounded-pill px-3 py-1 mb-3">
                     <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-info me-2" style="width: 28px; height: 28px; object-fit: cover;">
-                    <span class="text-white small fw-bold">إعداد وتطوير: <strong class="text-warning">الجوكر الفلسطيني احمد سليم</strong></span>
+                    <span class="text-white small fw-bold">إعداد وتطوير: <strong class="text-warning">المهندس احمد سليم</strong></span>
                     <span class="text-danger ms-2">🇵🇸</span>
                 </div>
                 <h1 class="display-6 fw-bold text-white mb-2">
-                    مختبر الجوكر الأمني لتطبيقات الويب
+                    مختبر الجوكر الفلسطيني لتطبيقات الويب
                 </h1>
                 <p class="lead text-light mb-3" style="font-size: 1.15rem;">
                     بيئة تفاعلية مصممة خصيصاً لتدريب الطلاب وشرح أخطر وأشهر ثغرات الويب عملياً (OWASP Top 10)، مبنية بالكامل بلغة PHP وتعمل عبر قاعدة بيانات SQLite بدون أي إعدادات معقدة.
@@ -480,7 +483,7 @@ unset($_SESSION['flash_msg']);
 <footer class="mt-5 py-4 border-top border-secondary text-center rounded-3 shadow" style="background-color: #0e1424;">
     <div class="container">
         <p class="mb-1 text-light fw-bold fs-6">
-            ⚔️ مختبر الجوكر الأمني لاختبار اختراق تطبيقات الويب (Joker Security Lab v2.0)
+            ⚔️ مختبر الجوكر الفلسطيني لاختبار اختراق تطبيقات الويب (Joker Security Lab v2.0)
         </p>
         <p class="mb-2 text-info small">
             منصة تعليمية وتدريبية متكاملة لشرح وتطبيق أشهر ثغرات الويب وكيفية ترقيعها برمجياً
@@ -488,7 +491,7 @@ unset($_SESSION['flash_msg']);
         <div class="mt-2 py-2 px-4 d-inline-flex align-items-center rounded-pill bg-black border border-warning shadow">
             <img src="assets/images/joker_logo.png" alt="الجوكر الفلسطيني" class="rounded-circle border border-warning me-2" style="width: 32px; height: 32px; object-fit: cover;">
             <span class="text-white-50 me-1">إعداد وتطوير: </span>
-            <strong class="text-warning fs-5">الجوكر الفلسطيني احمد سليم</strong>
+            <strong class="text-warning fs-5">المهندس احمد سليم</strong>
             <span class="text-danger ms-1">🇵🇸</span>
         </div>
         <div class="mt-2 small text-light text-opacity-75">
@@ -498,5 +501,7 @@ unset($_SESSION['flash_msg']);
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/main.js"></script>
+<?php render_celebration(true); ?>
 </body>
 </html>

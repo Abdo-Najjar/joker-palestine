@@ -137,6 +137,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'reset') {
     $res = reset_database();
     if (isset($_GET['clear_flags']) && $_GET['clear_flags'] == '1') {
         $_SESSION['solved_flags'] = [];
+        unset($_SESSION['celebration']);
+        unset($_SESSION['celebrated_keys']);
     }
     if ($res === true) {
         $msg = "تمت إعادة ضبط قاعدة البيانات وملفات المشروع بنجاح 100%!";
