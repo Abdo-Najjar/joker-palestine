@@ -92,19 +92,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
                 </div>
             </div>
         </div>
-
-        <?= render_hints([
-            "اسم المستخدم هو <code>admin</code>.",
-            "كلمة المرور من ضمن الكلمات الشائعة الموجودة في القاموس المصغر بالأعلى.",
-            "جرب كلمة <code>admin123</code> وسيتم فك القفل فوراً والحصول على العلم."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب: لا يوجد حد للمحاولات الخاطئة\nif ($user == "admin" && $pass == $db_pass) {\n    login();\n}',
-            '// كود آمن: تتبع المحاولات وتطبيق Rate Limiting / Lockout\nif ($_SESSION["attempts"] >= 5) {\n    die("تم حظر الحساب مؤقتاً بسبب تكرار المحاولات الخاطئة!");\n}\n// استخدام Google reCAPTCHA بعد محاولتين فاشلتين',
-            'الحماية الفعالة ضد التخمين تشمل: تطبيق حظر مؤقت (Account Lockout) بعد عدد محدد من المحاولات، إضافة اختبار CAPTCHA، وتفعيل المصادقة الثنائية (2FA).'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "اسم المستخدم هو <code>admin</code>.",
+    "كلمة المرور من ضمن الكلمات الشائعة الموجودة في القاموس المصغر بالأعلى.",
+    "جرب كلمة <code>admin123</code> وسيتم فك القفل فوراً والحصول على العلم."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب: لا يوجد حد للمحاولات الخاطئة\nif ($user == "admin" && $pass == $db_pass) {\n    login();\n}',
+    '// كود آمن: تتبع المحاولات وتطبيق Rate Limiting / Lockout\nif ($_SESSION["attempts"] >= 5) {\n    die("تم حظر الحساب مؤقتاً بسبب تكرار المحاولات الخاطئة!");\n}\n// استخدام Google reCAPTCHA بعد محاولتين فاشلتين',
+    'الحماية الفعالة ضد التخمين تشمل: تطبيق حظر مؤقت (Account Lockout) بعد عدد محدد من المحاولات، إضافة اختبار CAPTCHA، وتفعيل المصادقة الثنائية (2FA).'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

@@ -1,7 +1,7 @@
 import requests
 import sys
 
-BASE_URL = "http://127.0.0.1:8888"
+BASE_URL = "http://localhost:8000"
 session = requests.Session()
 
 print("="*60)

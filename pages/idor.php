@@ -84,19 +84,19 @@ if ($sec === 'low') {
                 </div>
             </div>
         <?php endif; ?>
-
-        <?= render_hints([
-            "انظر إلى رابط المتصفح: <code>idor.php?msg_id=1</code>.",
-            "جرب تغيير رقم الرسالة إلى رقم آخر لم يظهر في قائمتك، مثل: <code>idor.php?msg_id=2</code>.",
-            "ستلاحظ أنك استطعت قراءة رسالة موجهة للإدارة وتحتوي على العلم بكل سهولة!"
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب\n$msg_id = $_GET["msg_id"];\n$stmt = $db->query("SELECT * FROM messages WHERE id = $msg_id");\n$msg = $stmt->fetch();',
-            '// كود آمن\n$msg_id = (int)$_GET["msg_id"];\n$user_id = $_SESSION["user_id"];\n$stmt = $db->prepare("SELECT * FROM messages WHERE id = ? AND (receiver_id = ? OR sender_id = ?)");\n$stmt->execute([$msg_id, $user_id, $user_id]);\n$msg = $stmt->fetch();\nif (!$msg) die("Unauthorized!");',
-            'التحقق من الصلاحيات (Access Control Check) يجب أن يتم في جانب السيرفر مع كل طلب، عبر مطابقة معرف المستخدم المخزن في الجلسة (Session) مع صاحب السجل المطلوب في قاعدة البيانات.'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "انظر إلى رابط المتصفح: <code>idor.php?msg_id=1</code>.",
+    "جرب تغيير رقم الرسالة إلى رقم آخر لم يظهر في قائمتك، مثل: <code>idor.php?msg_id=2</code>.",
+    "ستلاحظ أنك استطعت قراءة رسالة موجهة للإدارة وتحتوي على العلم بكل سهولة!"
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب\n$msg_id = $_GET["msg_id"];\n$stmt = $db->query("SELECT * FROM messages WHERE id = $msg_id");\n$msg = $stmt->fetch();',
+    '// كود آمن\n$msg_id = (int)$_GET["msg_id"];\n$user_id = $_SESSION["user_id"];\n$stmt = $db->prepare("SELECT * FROM messages WHERE id = ? AND (receiver_id = ? OR sender_id = ?)");\n$stmt->execute([$msg_id, $user_id, $user_id]);\n$msg = $stmt->fetch();\nif (!$msg) die("Unauthorized!");',
+    'التحقق من الصلاحيات (Access Control Check) يجب أن يتم في جانب السيرفر مع كل طلب، عبر مطابقة معرف المستخدم المخزن في الجلسة (Session) مع صاحب السجل المطلوب في قاعدة البيانات.'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

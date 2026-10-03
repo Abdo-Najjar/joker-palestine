@@ -34,3 +34,60 @@
     border-bottom: 2px solid #243149;
     border-radius: 12px 12px 0 0;
 }
+
+/* حماية الأكواد والبايلودات من الانعكاس وضبط الحاويات لمنع التجاوز الأفقي */
+pre {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+    text-align: left !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    white-space: pre !important;
+    word-break: normal !important;
+    word-wrap: normal !important;
+    box-sizing: border-box !important;
+}
+
+pre code {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+    text-align: left !important;
+    display: block !important;
+    width: 100% !important;
+    white-space: pre !important;
+    font-family: 'Consolas', 'Courier New', Courier, monospace !important;
+    line-height: 1.6 !important;
+}
+
+code:not(pre code), kbd, samp, .code-ltr {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+    text-align: left;
+    display: inline-block;
+}
+
+/* بطاقة تسليم الأعلام في السايدبار */
+.sidebar-flag-card {
+    background-color: #0b0f19 !important;
+    border: 1px solid #1e293b !important;
+    transition: all 0.3s ease;
+}
+
+.sidebar-flag-card:hover {
+    border-color: #06b6d4 !important;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.25) !important;
+}
+
+/* تنسيقات الفوتر لضمان وضوح كامل */
+footer {
+    background-color: #0e1424 !important;
+    border-top: 1px solid #243149 !important;
+}
+
+footer .text-white-50 {
+    color: #cbd5e1 !important;
+}
+
+

@@ -78,7 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url'])) {
 
         <form method="POST" class="row g-2 mb-3" style="max-width: 650px;">
             <div class="col-8">
-                <input type="text" name="url" class="form-control font-monospace" placeholder="http://example.com أو http://127.0.0.1..." value="<?= htmlspecialchars($_POST['url'] ?? 'http://127.0.0.1') ?>" required>
+                <input type="text" id="ssrf-input" name="url" dir="ltr" class="form-control font-monospace" style="direction:ltr; text-align:left;" placeholder="http://127.0.0.1" value="<?= htmlspecialchars($_POST['url'] ?? 'http://127.0.0.1') ?>" required>
+                <div class="mt-2 d-flex flex-wrap align-items-center gap-1">
+                    <small class="text-muted me-1">تجارب سريعة:</small>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('ssrf-input').value='http://127.0.0.1';">http://127.0.0.1</button>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('ssrf-input').value='http://localhost/pages/secret_note.txt';">localhost/secret_note</button>
+                </div>
             </div>
             <div class="col-4">
                 <button type="submit" class="btn btn-warning text-dark fw-bold w-100"><i class="fas fa-download me-1"></i> جلب من السيرفر</button>
@@ -96,19 +101,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url'])) {
                 </div>
             </div>
         <?php endif; ?>
-
-        <?= render_hints([
-            "في الوضع العادي، هذه الميزة مخصصة لجلب روابط مثل <code>http://example.com</code>.",
-            "لكن المهاجم يستغلها لطلب عناوين مثل: <code>http://127.0.0.1:80</code> أو فحص المنافذ الداخلية (Port Scanning) عبر السيرفر نفسه!",
-            "جرب إرسال <code>http://127.0.0.1</code> أو <code>http://localhost</code> واضغط على الزر لتفعيل العلم."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب\n$url = $_POST["url"];\n$html = file_get_contents($url);',
-            '// كود آمن: حظر عناوين الـ Private / Loopback IPs\n$ip = gethostbyname(parse_url($url, PHP_URL_HOST));\nif (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {\n    die("Access Denied: Private IP Detected!");\n}\n$html = file_get_contents($url);',
-            'لمنع SSRF، يجب حل اسم النطاق والتأكد من أن عنوان الـ IP ليس من النطاقات المحجوزة أو الخاصة (127.0.0.0/8, 10.0.0.0/8, 192.168.0.0/16, 169.254.169.254).'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "في الوضع العادي، هذه الميزة مخصصة لجلب روابط مثل <code>http://example.com</code>.",
+    "لكن المهاجم يستغلها لطلب عناوين مثل: <code>http://127.0.0.1:80</code> أو فحص المنافذ الداخلية (Port Scanning) عبر السيرفر نفسه!",
+    "جرب إرسال <code>http://127.0.0.1</code> أو <code>http://localhost</code> واضغط على الزر لتفعيل العلم."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب\n$url = $_POST["url"];\n$html = file_get_contents($url);',
+    '// كود آمن: حظر عناوين الـ Private / Loopback IPs\n$ip = gethostbyname(parse_url($url, PHP_URL_HOST));\nif (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {\n    die("Access Denied: Private IP Detected!");\n}\n$html = file_get_contents($url);',
+    'لمنع SSRF، يجب حل اسم النطاق والتأكد من أن عنوان الـ IP ليس من النطاقات المحجوزة أو الخاصة (127.0.0.0/8, 10.0.0.0/8, 192.168.0.0/16, 169.254.169.254).'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

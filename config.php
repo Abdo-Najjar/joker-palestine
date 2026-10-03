@@ -98,31 +98,48 @@ function get_security_level() {
 
 // مكون إرشادي لعرض الكود المصاب مقابل الكود الآمن
 function render_code_comparison($vuln_code, $secure_code, $explanation) {
+    static $compare_count = 0;
+    $compare_count++;
+    $collapse_id = "codeCompareCollapse_" . $compare_count;
+
+    // تحويل \n الحرفية إلى أسطر حقيقية (إذا تم تمريرها بسلاسل نصية فردية)
+    $vuln_code = str_replace('\n', "\n", $vuln_code);
+    $secure_code = str_replace('\n', "\n", $secure_code);
     ?>
     <div class="card my-4 border-info shadow-sm">
         <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-            <span><i class="fas fa-code me-2 text-info"></i> التحليل الأمني: الكود المصاب vs الكود الآمن</span>
-            <button class="btn btn-sm btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#codeCompareCollapse">
+            <span class="fw-bold text-info"><i class="fas fa-code me-2"></i> التحليل الأمني: الكود المصاب vs الكود الآمن</span>
+            <button class="btn btn-sm btn-outline-info fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#<?= $collapse_id ?>">
                 عرض / إخفاء الكود <i class="fas fa-chevron-down ms-1"></i>
             </button>
         </div>
-        <div class="collapse" id="codeCompareCollapse">
+        <div class="collapse" id="<?= $collapse_id ?>">
             <div class="card-body">
-                <div class="alert alert-secondary py-2">
-                    <strong><i class="fas fa-info-circle me-1"></i> شرح آلية الخلل والترقيع:</strong>
-                    <p class="mb-0 mt-1"><?= $explanation ?></p>
+                <div class="alert alert-secondary py-2 mb-3">
+                    <strong class="text-white"><i class="fas fa-info-circle me-1 text-info"></i> شرح آلية الخلل والترقيع:</strong>
+                    <p class="mb-0 mt-1 text-light"><?= $explanation ?></p>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="p-2 bg-danger bg-opacity-10 border border-danger rounded">
-                            <h6 class="text-danger fw-bold"><i class="fas fa-bug me-1"></i> الكود المصاب (Vulnerable - Low)</h6>
-                            <pre class="bg-dark text-danger-subtle p-3 rounded small mb-0" style="direction:ltr; text-align:left; max-height:260px; overflow-y:auto;"><code><?= htmlspecialchars($vuln_code) ?></code></pre>
+                <div class="row g-3">
+                    <div class="col-lg-6 mb-2">
+                        <div class="p-3 bg-danger bg-opacity-10 border border-danger rounded h-100 d-flex flex-column shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="text-danger fw-bold mb-0">
+                                    <i class="fas fa-bug me-1"></i> الكود المصاب (Vulnerable - Low)
+                                </h6>
+                                <span class="badge bg-danger">كود مصاب</span>
+                            </div>
+                            <pre class="bg-black text-danger-subtle p-3 rounded small mb-0 flex-grow-1 border border-danger border-opacity-25" style="direction:ltr; text-align:left; max-height:350px; overflow:auto; width:100%; box-sizing:border-box;"><code class="font-monospace" style="direction:ltr; text-align:left; display:block; white-space:pre;"><?= htmlspecialchars(trim($vuln_code)) ?></code></pre>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="p-2 bg-success bg-opacity-10 border border-success rounded">
-                            <h6 class="text-success fw-bold"><i class="fas fa-shield-alt me-1"></i> الكود الآمن (Secure - High)</h6>
-                            <pre class="bg-dark text-success-subtle p-3 rounded small mb-0" style="direction:ltr; text-align:left; max-height:260px; overflow-y:auto;"><code><?= htmlspecialchars($secure_code) ?></code></pre>
+                    <div class="col-lg-6 mb-2">
+                        <div class="p-3 bg-success bg-opacity-10 border border-success rounded h-100 d-flex flex-column shadow-sm">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="text-success fw-bold mb-0">
+                                    <i class="fas fa-shield-alt me-1"></i> الكود الآمن (Secure - High)
+                                </h6>
+                                <span class="badge bg-success text-dark fw-bold">كود آمن ومرقّع</span>
+                            </div>
+                            <pre class="bg-black text-success-subtle p-3 rounded small mb-0 flex-grow-1 border border-success border-opacity-25" style="direction:ltr; text-align:left; max-height:350px; overflow:auto; width:100%; box-sizing:border-box;"><code class="font-monospace" style="direction:ltr; text-align:left; display:block; white-space:pre;"><?= htmlspecialchars(trim($secure_code)) ?></code></pre>
                         </div>
                     </div>
                 </div>

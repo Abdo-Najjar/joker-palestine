@@ -1,7 +1,5 @@
 <?php
-$page_title = "كشف البيانات الحساسة وقاعدة البيانات | مختبر الجوكر الأمني";
-require_once __DIR__ . '/../includes/header.php';
-
+require_once __DIR__ . '/../config.php';
 $sec = get_security_level();
 
 if (isset($_GET['download']) && $_GET['download'] === 'db') {
@@ -9,6 +7,9 @@ if (isset($_GET['download']) && $_GET['download'] === 'db') {
         award_flag('sensitive');
         $file = DB_FILE;
         if (file_exists($file)) {
+            while (ob_get_level()) {
+                ob_end_clean();
+            }
             header('Content-Description: File Transfer');
             header('Content-Type: application/x-sqlite3');
             header('Content-Disposition: attachment; filename="database.sqlite"');
@@ -24,6 +25,9 @@ if (isset($_GET['download']) && $_GET['download'] === 'db') {
         die("<div style='color:red;padding:30px;font-family:sans-serif;'><h2>403 Forbidden - Access Denied</h2>تم حظر الوصول المباشر لقاعدة البيانات عبر قواعد .htaccess ومستوى الحماية الآمن!</div>");
     }
 }
+
+$page_title = "كشف البيانات الحساسة وقاعدة البيانات | مختبر الجوكر الأمني";
+require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
@@ -56,19 +60,19 @@ if (isset($_GET['download']) && $_GET['download'] === 'db') {
                 بمجرد تحميل الملف، يمكن فتحه بأي برنامج مثل <strong>DB Browser for SQLite</strong> لرؤية كل كلمات المرور المشفرة بـ MD5 وبيانات المستخدمين والرسائل السرية!
             </small>
         </div>
-
-        <?= render_hints([
-            "اضغط على زر (تحميل قاعدة البيانات) لمحاكاة قيام مهاجم بطلب ملف <code>database.sqlite</code> مباشرة.",
-            "ستلاحظ أن السيرفر يسمح بتحميل الملف فوراً، وبداخله جدول كامل للأعلام والمستخدمين!",
-            "عند التحميل في المستوى الضعيف (Low)، ستتحصل على العلم."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '# إعداد خاطئ: ترك ملفات SQLite في المجلد العام public_html\n# http://example.com/database.sqlite -> متاح للتحميل للجميع!',
-            '# حماية صحيحة عبر ملف .htaccess في سيرفر Apache:\n<FilesMatch "\.(sqlite|db|env|git|bak|log)$">\n    Require all denied\n</FilesMatch>\n\n// أو الأفضل برمجياً: وضع قاعدة البيانات خارج مجلد الويب:\n// define("DB_FILE", "/var/www/private_data/database.sqlite");',
-            'القاعدة الذهبية: لا تضع أي ملفات قواعد بيانات أو إعدادات (.env, .sqlite, .git, backups) في المسار العام للموقع، واحمِ الامتدادات الحساسة عبر إعدادات الويب سيرفر.'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "اضغط على زر (تحميل قاعدة البيانات) لمحاكاة قيام مهاجم بطلب ملف <code>database.sqlite</code> مباشرة.",
+    "ستلاحظ أن السيرفر يسمح بتحميل الملف فوراً، وبداخله جدول كامل للأعلام والمستخدمين!",
+    "عند التحميل في المستوى الضعيف (Low)، ستتحصل على العلم."
+]); ?>
+
+<?= render_code_comparison(
+    '# إعداد خاطئ: ترك ملفات SQLite في المجلد العام public_html\n# http://example.com/database.sqlite -> متاح للتحميل للجميع!',
+    '# حماية صحيحة عبر ملف .htaccess في سيرفر Apache:\n<FilesMatch "\.(sqlite|db|env|git|bak|log)$">\n    Require all denied\n</FilesMatch>\n\n// أو الأفضل برمجياً: وضع قاعدة البيانات خارج مجلد الويب:\n// define("DB_FILE", "/var/www/private_data/database.sqlite");',
+    'القاعدة الذهبية: لا تضع أي ملفات قواعد بيانات أو إعدادات (.env, .sqlite, .git, backups) في المسار العام للموقع، واحمِ الامتدادات الحساسة عبر إعدادات الويب سيرفر.'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

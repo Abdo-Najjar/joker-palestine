@@ -62,9 +62,15 @@ if (isset($_GET['file'])) {
             <a href="lfi.php?file=contact.txt" class="btn btn-outline-info btn-sm fw-bold">صفحة الاتصال (contact.txt)</a>
         </div>
 
-        <form method="GET" class="row g-2 mb-3" style="max-width: 600px;">
+        <form method="GET" class="row g-2 mb-3" style="max-width: 650px;">
             <div class="col-8">
-                <input type="text" name="file" class="form-control" value="<?= htmlspecialchars($file) ?>" placeholder="اسم الملف أو المسار...">
+                <input type="text" id="lfi-input" name="file" dir="ltr" class="form-control font-monospace" style="direction:ltr; text-align:left;" value="<?= htmlspecialchars($file) ?>" placeholder="secret_note.txt">
+                <div class="mt-2 d-flex flex-wrap align-items-center gap-1">
+                    <small class="text-muted me-1">تجارب سريعة:</small>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('lfi-input').value='secret_note.txt';">secret_note.txt</button>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('lfi-input').value='../../../../Windows/win.ini';">win.ini</button>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('lfi-input').value='php://filter/convert.base64-encode/resource=about.txt';">php://filter</button>
+                </div>
             </div>
             <div class="col-4">
                 <button type="submit" class="btn btn-danger fw-bold w-100"><i class="fas fa-folder-open me-1"></i> تحميل وتضمين</button>
@@ -84,19 +90,19 @@ if (isset($_GET['file'])) {
                 <pre class="mb-0 text-light" style="direction:ltr; text-align:left; white-space:pre-wrap;"><code><?= htmlspecialchars($included_content) ?></code></pre>
             </div>
         </div>
-
-        <?= render_hints([
-            "يوجد ملف سري في نفس المجلد اسمه <code>secret_note.txt</code>، جرب طلبه مباشرة في المعامل: <code>?file=secret_note.txt</code>.",
-            "جرب استخدام Path Traversal للخروج من المجلد: <code>?file=../../../../Windows/win.ini</code> (على ويندوز) أو <code>/etc/passwd</code> (على لينكس).",
-            "يمكنك أيضاً تجربة مشغلات PHP المتقدمة لقراءة الأكواد المصدرية مثل: <code class='text-warning'>php://filter/convert.base64-encode/resource=sqli.php</code>."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب\n$file = $_GET["file"];\ninclude($file);',
-            '// كود آمن (القائمة البيضاء + دالة basename)\n$allowed = ["about.txt", "contact.txt"];\n$clean = basename($_GET["file"]);\nif (in_array($clean, $allowed)) {\n    include($clean);\n} else {\n    die("Access Denied");\n}',
-            'أفضل حل لمنع LFI و Path Traversal هو التحقق الصارم عبر القائمة البيضاء (Whitelist) واستخدام دالة basename() لتجريد كل المسارات مثل ../'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "يوجد ملف سري في نفس المجلد اسمه <code>secret_note.txt</code>، جرب طلبه مباشرة في المعامل: <code>?file=secret_note.txt</code>.",
+    "جرب استخدام Path Traversal للخروج من المجلد: <code>?file=../../../../Windows/win.ini</code> (على ويندوز) أو <code>/etc/passwd</code> (على لينكس).",
+    "يمكنك أيضاً تجربة مشغلات PHP المتقدمة لقراءة الأكواد المصدرية مثل: <code class='text-warning'>php://filter/convert.base64-encode/resource=sqli.php</code>."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب\n$file = $_GET["file"];\ninclude($file);',
+    '// كود آمن (القائمة البيضاء + دالة basename)\n$allowed = ["about.txt", "contact.txt"];\n$clean = basename($_GET["file"]);\nif (in_array($clean, $allowed)) {\n    include($clean);\n} else {\n    die("Access Denied");\n}',
+    'أفضل حل لمنع LFI و Path Traversal هو التحقق الصارم عبر القائمة البيضاء (Whitelist) واستخدام دالة basename() لتجريد كل المسارات مثل ../'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

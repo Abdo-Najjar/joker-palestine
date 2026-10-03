@@ -64,9 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ip'])) {
             <div class="alert alert-danger py-2"><?= $error ?></div>
         <?php endif; ?>
 
-        <form method="POST" class="row g-2 mb-3" style="max-width: 600px;">
+        <form method="POST" class="row g-2 mb-3" style="max-width: 650px;">
             <div class="col-8">
-                <input type="text" name="ip" class="form-control font-monospace" placeholder="127.0.0.1 أو بايلود الحقن..." value="<?= htmlspecialchars($_POST['ip'] ?? '127.0.0.1') ?>" required>
+                <input type="text" id="cmdi-input" name="ip" dir="ltr" class="form-control font-monospace" style="direction:ltr; text-align:left;" placeholder="127.0.0.1 & whoami" value="<?= htmlspecialchars($_POST['ip'] ?? '127.0.0.1') ?>" required>
+                <div class="mt-2 d-flex flex-wrap align-items-center gap-1">
+                    <small class="text-muted me-1">بايلودات جاهزة للتجربة والتعلم:</small>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('cmdi-input').value='127.0.0.1 & whoami';">127.0.0.1 & whoami</button>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('cmdi-input').value='127.0.0.1 && whoami';">127.0.0.1 && whoami</button>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('cmdi-input').value='127.0.0.1 & dir';">127.0.0.1 & dir</button>
+                </div>
             </div>
             <div class="col-4">
                 <button type="submit" class="btn btn-danger fw-bold w-100"><i class="fas fa-play me-1"></i> تشغيل الفحص</button>
@@ -75,11 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ip'])) {
 
         <?php if (!empty($cmd_executed)): ?>
             <div class="alert alert-dark border-secondary small py-2 mb-2">
-                <i class="fas fa-terminal text-info me-1"></i> الأمر المنفذ على السيرفر: <code><?= htmlspecialchars($cmd_executed) ?></code>
+                <i class="fas fa-terminal text-info me-1"></i> الأمر المنفذ على السيرفر: <code dir="ltr"><?= htmlspecialchars($cmd_executed) ?></code>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($output)): ?>
+            <?php if (stripos($output, 'could not find host') !== false): ?>
+                <div class="alert alert-warning py-2 small mb-2">
+                    <i class="fas fa-info-circle me-1"></i> <strong>ملاحظة هامة:</strong> يبدو أنك وضعت أمر <code>whoami</code> قبل الـ IP! أمر <code>ping</code> يتوقع عنوان IP أولاً، ثم علامة الربط <code>&</code> أو <code>&&</code> متبوعة بأمرك الإضافي. استخدم الترتيب التالي: <code dir="ltr">127.0.0.1 & whoami</code>
+                </div>
+            <?php endif; ?>
             <div class="card bg-black border-secondary">
                 <div class="card-header bg-dark text-white py-1 small">
                     <i class="fas fa-desktop me-1 text-success"></i> مخرجات الأوامر (Terminal Output):
@@ -89,19 +100,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ip'])) {
                 </div>
             </div>
         <?php endif; ?>
-
-        <?= render_hints([
-            "في أنظمة ويندوز ولينكس، يمكن ربط الأوامر ببعضها باستخدام الرموز: <code>&</code> أو <code>&&</code> أو <code>|</code> أو <code>;</code>.",
-            "جرب كتابة: <code class='text-warning bg-black px-2 py-1'>127.0.0.1 & whoami</code> أو <code class='text-warning bg-black px-2 py-1'>127.0.0.1 && whoami</code>",
-            "ستلاحظ أن السيرفر نفذ أمر Ping أولاً، ثم نفذ أمر whoami بعده مباشرة وعرض النتيجة على الشاشة!"
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب\n$ip = $_POST["ip"];\n$output = shell_exec("ping -c 1 " . $ip);',
-            '// كود آمن\n$ip = $_POST["ip"];\nif (filter_var($ip, FILTER_VALIDATE_IP)) {\n    $safe_ip = escapeshellarg($ip);\n    $output = shell_exec("ping -c 1 " . $safe_ip);\n} else {\n    die("Invalid IP");\n}',
-            'أفضل ممارسة لتفادي Command Injection هي تجنب استدعاء أوامر النظام المباشرة قدر الإمكان، وإذا كان ضرورياً يجب التحقق الصارم من صحة المدخلات وتغليفها بدالة escapeshellarg() أو escapeshellcmd().'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "في أنظمة ويندوز ولينكس، يمكن ربط الأوامر ببعضها باستخدام الرموز: <code>&</code> أو <code>&&</code> أو <code>|</code> أو <code>;</code>.",
+    "الترتيب الصحيح (من اليسار لليمين): نضع عنوان الـ IP أولاً، ثم الرمز <code>&</code>، ثم الأمر المطلوب: <span dir='ltr' style='direction:ltr; display:inline-block;'><code class='text-warning bg-black px-2 py-1'>127.0.0.1 & whoami</code></span>",
+    "ستلاحظ أن السيرفر نفذ أمر Ping أولاً لعنوان 127.0.0.1، ثم نفذ أمر whoami بعده مباشرة وطبع اسم المستخدم الخاص بجهازك!"
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب\n$ip = $_POST["ip"];\n$output = shell_exec("ping -c 1 " . $ip);',
+    '// كود آمن\n$ip = $_POST["ip"];\nif (filter_var($ip, FILTER_VALIDATE_IP)) {\n    $safe_ip = escapeshellarg($ip);\n    $output = shell_exec("ping -c 1 " . $safe_ip);\n} else {\n    die("Invalid IP");\n}',
+    'أفضل ممارسة لتفادي Command Injection هي تجنب استدعاء أوامر النظام المباشرة قدر الإمكان، وإذا كان ضرورياً يجب التحقق الصارم من صحة المدخلات وتغليفها بدالة escapeshellarg() أو escapeshellcmd().'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

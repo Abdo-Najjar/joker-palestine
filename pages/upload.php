@@ -81,19 +81,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['avatar'])) {
             </div>
             <button type="submit" class="btn btn-success fw-bold"><i class="fas fa-cloud-upload-alt me-1"></i> رفع الملف الآن</button>
         </form>
-
-        <?= render_hints([
-            "أنشئ ملفاً على جهازك باسم <code>shell.php</code> وضع بداخله: <code>&lt;?php phpinfo(); ?&gt;</code> أو <code>&lt;?php echo 'Hello RCE'; ?&gt;</code>",
-            "قم برفع الملف ثم اضغط على الرابط الذي سيظهر في رسالة النجاح لتشغيله في المتصفح.",
-            "عند رفع أي ملف بامتداد php في المستوى الضعيف (Low)، ستتحصل على العلم فوراً."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب: رفع مباشر دون تحقق\n$target = "uploads/" . $_FILES["avatar"]["name"];\nmove_uploaded_file($_FILES["avatar"]["tmp_name"], $target);',
-            '// كود آمن: فحص الامتداد والنوع وتغيير الاسم\n$ext = strtolower(pathinfo($_FILES["avatar"]["name"], PATHINFO_EXTENSION));\n$allowed = ["jpg", "jpeg", "png", "gif"];\n$finfo = finfo_open(FILEINFO_MIME_TYPE);\n$mime = finfo_file($finfo, $_FILES["avatar"]["tmp_name"]);\nif (in_array($ext, $allowed) && in_array($mime, ["image/jpeg", "image/png"])) {\n    $new_name = bin2hex(random_bytes(10)) . "." . $ext;\n    move_uploaded_file($_FILES["avatar"]["tmp_name"], "uploads/" . $new_name);\n}',
-            'الحماية الحقيقية تتطلب: فحص الامتداد بقائمة بيضاء صارمة، فحص نوع المحتوى الحقيقي (MIME Type)، توليد اسم عشوائي للملف لمنع استدعاءه بسهولة، ومنع تنفيذ الـ PHP في مجلد الرفع عبر ملف .htaccess.'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "أنشئ ملفاً على جهازك باسم <code>shell.php</code> وضع بداخله: <code>&lt;?php phpinfo(); ?&gt;</code> أو <code>&lt;?php echo 'Hello RCE'; ?&gt;</code>",
+    "قم برفع الملف ثم اضغط على الرابط الذي سيظهر في رسالة النجاح لتشغيله في المتصفح.",
+    "عند رفع أي ملف بامتداد php في المستوى الضعيف (Low)، ستتحصل على العلم فوراً."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب: رفع مباشر دون تحقق\n$target = "uploads/" . $_FILES["avatar"]["name"];\nmove_uploaded_file($_FILES["avatar"]["tmp_name"], $target);',
+    '// كود آمن: فحص الامتداد والنوع وتغيير الاسم\n$ext = strtolower(pathinfo($_FILES["avatar"]["name"], PATHINFO_EXTENSION));\n$allowed = ["jpg", "jpeg", "png", "gif"];\n$finfo = finfo_open(FILEINFO_MIME_TYPE);\n$mime = finfo_file($finfo, $_FILES["avatar"]["tmp_name"]);\nif (in_array($ext, $allowed) && in_array($mime, ["image/jpeg", "image/png"])) {\n    $new_name = bin2hex(random_bytes(10)) . "." . $ext;\n    move_uploaded_file($_FILES["avatar"]["tmp_name"], "uploads/" . $new_name);\n}',
+    'الحماية الحقيقية تتطلب: فحص الامتداد بقائمة بيضاء صارمة، فحص نوع المحتوى الحقيقي (MIME Type)، توليد اسم عشوائي للملف لمنع استدعاءه بسهولة، ومنع تنفيذ الـ PHP في مجلد الرفع عبر ملف .htaccess.'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

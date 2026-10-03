@@ -1,9 +1,8 @@
 <?php
-$page_title = "التوجيه المفتوح (Open Redirect) | مختبر الجوكر الأمني";
-require_once __DIR__ . '/../includes/header.php';
-
+require_once __DIR__ . '/../config.php';
 $sec = get_security_level();
 $error = "";
+$msg = "";
 
 if (isset($_GET['target'])) {
     $target = $_GET['target'];
@@ -27,6 +26,9 @@ if (isset($_GET['target'])) {
         }
     }
 }
+
+$page_title = "التوجيه المفتوح (Open Redirect) | مختبر الجوكر الأمني";
+require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
@@ -54,34 +56,43 @@ if (isset($_GET['target'])) {
             <div class="alert alert-danger py-2"><?= $error ?></div>
         <?php endif; ?>
 
-        <div class="p-3 bg-dark rounded border border-secondary mb-4" style="max-width: 650px;">
-            <label class="form-label text-light">الرابط المستهدف للتوجيه (Target URL):</label>
-            <form method="GET" class="row g-2">
-                <input type="hidden" name="simulate" value="1">
-                <div class="col-8">
-                    <input type="text" name="target" class="form-control" value="https://google.com" placeholder="https://evil-site.com...">
+        <form id="redirect-form" method="GET" action="redirect.php" class="p-3 bg-dark rounded border border-secondary mb-4" style="max-width: 650px;">
+            <label class="form-label text-light fw-bold"><i class="fas fa-link text-warning me-1"></i> الرابط الخارجي المستهدف للتوجيه (Target URL):</label>
+            <div class="mb-3">
+                <input type="text" id="target-input" name="target" dir="ltr" class="form-control font-monospace" style="direction:ltr; text-align:left;" value="<?= htmlspecialchars($_GET['target'] ?? 'https://google.com') ?>" placeholder="https://google.com" required>
+                <div class="mt-2 d-flex flex-wrap align-items-center gap-1">
+                    <small class="text-muted me-1">روابط سريعة للتجربة:</small>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('target-input').value='https://google.com';">google.com</button>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('target-input').value='https://youtube.com';">youtube.com</button>
+                    <button type="button" class="btn btn-outline-info btn-sm py-0 px-2 font-monospace" onclick="document.getElementById('target-input').value='https://wikipedia.org';">wikipedia.org</button>
                 </div>
-                <div class="col-4">
-                    <button type="submit" class="btn btn-primary fw-bold w-100"><i class="fas fa-arrow-right me-1"></i> اختبار التوجيه</button>
-                </div>
-            </form>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-primary fw-bold" onclick="this.form.target='_blank'; setTimeout(function(){ location.reload(); }, 1200);">
+                    <i class="fas fa-external-link-alt me-1"></i> فتح وتوجيه حقيقي (في تبويب جديد)
+                </button>
+                <button type="submit" name="simulate" value="1" class="btn btn-outline-secondary btn-sm" onclick="this.form.target='_self';">
+                    <i class="fas fa-eye me-1"></i> محاكاة في نفس الصفحة
+                </button>
+            </div>
             <small class="text-muted d-block mt-2">
-                (تم وضع وضع المحاكاة هنا لترى كيف يقبل السيرفر التوجيه دون مغادرة منصة المختبر).
+                <i class="fas fa-info-circle me-1 text-info"></i> عند الضغط على <strong>(فتح وتوجيه حقيقي في تبويب جديد)</strong>، سيقوم السيرفر بإرسال كود <code>Location: https://google.com</code> ويفتح الموقع الخارجي مباشرة في تبويب جديد دون أن تفقد صفحة المختبر الحالية!
             </small>
-        </div>
-
-        <?= render_hints([
-            "لاحظ كيف يقبل السيرفر أي نطاق خارجي مثل <code>https://google.com</code> أو <code>https://attacker.com</code>.",
-            "المهاجمون يرسلون رابط مثل: <code>https://your-trusted-bank.com/redirect.php?target=https://fake-login-bank.com</code> لخداع الضحايا بأن الرابط آمن لأنه يبدأ بنطاق البنك الموثوق!",
-            "اضغط على زر (اختبار التوجيه) للحصول على العلم."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب\n$target = $_GET["target"];\nheader("Location: " . $target);',
-            '// كود آمن: حصر التوجيه بالمسارات النسبية فقط أو قائمة بيضاء\n$target = $_GET["target"];\nif (strpos($target, "/") === 0 && strpos($target, "//") !== 0) {\n    header("Location: " . $target);\n} else {\n    die("Invalid Redirect Target!");\n}',
-            'لمنع ثغرات Open Redirect، تحقق من أن الرابط يبدأ بشرطة مائلة واحدة فقط / ولا يحتوي على بروتوكول خارجي، أو استخدم قائمة بيضاء بالنطاقات الموثوقة.'
-        ); ?>
+        </form>
     </div>
 </div>
+
+<?= render_hints([
+    "لاحظ كيف يقبل السيرفر أي نطاق خارجي مثل <code>https://google.com</code> أو <code>https://attacker.com</code>.",
+    "المهاجمون يرسلون رابط مثل: <code>https://your-trusted-bank.com/redirect.php?target=https://fake-login-bank.com</code> لخداع الضحايا بأن الرابط آمن لأنه يبدأ بنطاق البنك الموثوق!",
+    "اضغط على زر (اختبار التوجيه) للحصول على العلم."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب\n$target = $_GET["target"];\nheader("Location: " . $target);',
+    '// كود آمن: حصر التوجيه بالمسارات النسبية فقط أو قائمة بيضاء\n$target = $_GET["target"];\nif (strpos($target, "/") === 0 && strpos($target, "//") !== 0) {\n    header("Location: " . $target);\n} else {\n    die("Invalid Redirect Target!");\n}',
+    'لمنع ثغرات Open Redirect، تحقق من أن الرابط يبدأ بشرطة مائلة واحدة فقط / ولا يحتوي على بروتوكول خارجي، أو استخدم قائمة بيضاء بالنطاقات الموثوقة.'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

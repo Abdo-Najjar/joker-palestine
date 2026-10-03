@@ -50,6 +50,9 @@ $sec_level = get_security_level();
             background-color: var(--bg-sidebar);
             border-left: 1px solid var(--border-color);
             min-height: calc(100vh - 70px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .sidebar .nav-link {
             color: var(--text-muted);
@@ -149,15 +152,17 @@ $sec_level = get_security_level();
             </ul>
 
             <div class="d-flex align-items-center gap-2">
-                <a href="../docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-info btn-sm fw-bold">
+                <a href="../docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-info btn-sm fw-bold text-nowrap">
                     <i class="fas fa-file-pdf me-1 text-danger"></i> دليل المختبر PDF
                 </a>
-                <a href="../reset.php" class="btn btn-outline-warning btn-sm fw-bold">
+                <a href="../reset.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
                     <i class="fas fa-redo-alt me-1"></i> إعادة ضبط البيانات
                 </a>
-                <span class="text-muted small border-start border-secondary ps-3 ms-2 d-none d-lg-inline">
-                    إعداد: <strong class="text-white">الجوكر الفلسطيني احمد سليم</strong>
-                </span>
+                <div class="d-none d-xl-inline-block text-nowrap py-1 px-3 rounded-pill bg-black border border-warning shadow-sm ms-2">
+                    <span class="text-white-50 small">إعداد: </span>
+                    <strong class="text-warning small">الجوكر الفلسطيني احمد سليم</strong>
+                    <span class="text-danger small ms-1">🇵🇸</span>
+                </div>
             </div>
         </div>
     </div>
@@ -295,16 +300,25 @@ $sec_level = get_security_level();
                 </li>
             </ul>
 
-            <div class="px-3 mt-4 pt-3 border-top border-secondary text-center">
-                <small class="text-muted d-block mb-2">تسليم علم يدوياً (Manual Flag)</small>
+            <div class="sidebar-flag-card mx-2 mt-auto my-3 p-3 rounded-3 bg-dark border border-secondary text-center shadow-sm">
+                <div class="text-warning small fw-bold mb-2 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-flag-checkered text-info me-2"></i>
+                    <span>تسليم علم يدوياً (Manual Flag)</span>
+                </div>
                 <form action="submit_flag.php" method="POST">
                     <div class="input-group input-group-sm">
-                        <input type="text" name="flag_input" class="form-control bg-dark text-white border-secondary" placeholder="FLAG{...}" required>
-                        <button class="btn btn-primary" type="submit"><i class="fas fa-paper-plane"></i></button>
+                        <input type="text" name="flag_input" dir="ltr" class="form-control bg-black text-white text-center font-monospace border-secondary" placeholder="FLAG{...}" required style="letter-spacing: 1px;">
+                        <button class="btn btn-info text-dark fw-bold px-3" type="submit" title="إرسال العلم">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
                     </div>
                 </form>
+                <small class="text-light text-opacity-50 d-block mt-2" style="font-size: 0.72rem;">
+                    أدخل كود العلم المكتشف لتسجيل النقاط
+                </small>
             </div>
         </nav>
 
         <!-- Main Content Area -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 d-flex flex-column" style="min-height: calc(100vh - 70px);">
+            <div class="flex-grow-1">

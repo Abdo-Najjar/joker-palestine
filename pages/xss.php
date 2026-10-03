@@ -42,6 +42,17 @@ if (!empty($search_xss)) {
     <span class="badge bg-info text-dark fs-6 px-3 py-2"><i class="fas fa-bug me-1"></i> الأنواع: المنعكس، المخزن، وDOM</span>
 </div>
 
+<!-- مخطط معماري توضيحي لمسار هجوم XSS -->
+<div class="card card-cyber mb-4 overflow-hidden border-info shadow-lg">
+    <div class="card-header bg-dark text-info fw-bold py-2 d-flex justify-content-between align-items-center">
+        <span><i class="fas fa-project-diagram me-2"></i> مخطط توضيحي: دورة حياة هجوم Cross-Site Scripting (XSS) وسرقة الكوكيز</span>
+        <span class="badge bg-info text-dark">مخطط تعليمي للطلاب</span>
+    </div>
+    <div class="card-body p-0 text-center bg-black">
+        <img src="../assets/images/xss_diagram.jpg" alt="XSS Attack Cycle Diagram" class="img-fluid" style="max-height: 380px; width: 100%; object-fit: contain;">
+    </div>
+</div>
+
 <!-- ======================= 1. Reflected XSS ======================= -->
 <div class="card card-cyber mb-5">
     <div class="card-cyber-header d-flex justify-content-between align-items-center">
@@ -78,19 +89,19 @@ if (!empty($search_xss)) {
                 </span>
             </div>
         <?php endif; ?>
-
-        <?= render_hints([
-            "جرب إرسال بايلود بسيط مثل: <code>&lt;script&gt;alert('Reflected XSS')&lt;/script&gt;</code>",
-            "أو استخدم وسم صورة مع حدث خطأ: <code>&lt;img src=x onerror=alert(1)&gt;</code>"
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب\necho "نتائج البحث عن: " . $_GET["q"];',
-            '// كود آمن\necho "نتائج البحث عن: " . htmlspecialchars($_GET["q"], ENT_QUOTES, "UTF-8");',
-            'تضمن دالة htmlspecialchars تحويل الحروف الخاصة مثل < و > و " إلى كيانات HTML آمنة (&lt; &gt; &quot;) فيعاملها المتصفح كنص عادي وليس كود برمجي تنفيذي.'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "جرب إرسال بايلود بسيط مثل: <code>&lt;script&gt;alert('Reflected XSS')&lt;/script&gt;</code>",
+    "أو استخدم وسم صورة مع حدث خطأ: <code>&lt;img src=x onerror=alert(1)&gt;</code>"
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب\necho "نتائج البحث عن: " . $_GET["q"];',
+    '// كود آمن\necho "نتائج البحث عن: " . htmlspecialchars($_GET["q"], ENT_QUOTES, "UTF-8");',
+    'تضمن دالة htmlspecialchars تحويل الحروف الخاصة مثل < و > و " إلى كيانات HTML آمنة (&lt; &gt; &quot;) فيعاملها المتصفح كنص عادي وليس كود برمجي تنفيذي.'
+); ?>
 
 <!-- ======================= 2. Stored XSS ======================= -->
 <div class="card card-cyber mb-5">
@@ -147,19 +158,19 @@ if (!empty($search_xss)) {
                 </div>
             </div>
         </div>
-
-        <?= render_hints([
-            "اكتب تعليقاً يحتوي على: <code>&lt;script&gt;alert(document.domain)&lt;/script&gt;</code>",
-            "لاحظ أنه بمجرد تحديث الصفحة أو دخول أي زائر آخر، سيظهر التنبيه تلقائياً لأن الكود تم حفظه في قاعدة البيانات."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب عند العرض\nforeach ($comments as $c) {\n    echo "<p>" . $c["comment"] . "</p>";\n}',
-            '// كود آمن عند العرض\nforeach ($comments as $c) {\n    echo "<p>" . htmlspecialchars($c["comment"], ENT_QUOTES, "UTF-8") . "</p>";\n}',
-            'أفضل ممارسة للحماية من Stored XSS هي تطبيق Context-Aware Output Encoding عند عرض البيانات المخزنة من قاعدة البيانات إلى المتصفح.'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "اكتب تعليقاً يحتوي على: <code>&lt;script&gt;alert(document.domain)&lt;/script&gt;</code>",
+    "لاحظ أنه بمجرد تحديث الصفحة أو دخول أي زائر آخر، سيظهر التنبيه تلقائياً لأن الكود تم حفظه في قاعدة البيانات."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب عند العرض\nforeach ($comments as $c) {\n    echo "<p>" . $c["comment"] . "</p>";\n}',
+    '// كود آمن عند العرض\nforeach ($comments as $c) {\n    echo "<p>" . htmlspecialchars($c["comment"], ENT_QUOTES, "UTF-8") . "</p>";\n}',
+    'أفضل ممارسة للحماية من Stored XSS هي تطبيق Context-Aware Output Encoding عند عرض البيانات المخزنة من قاعدة البيانات إلى المتصفح.'
+); ?>
 
 <!-- ======================= 3. DOM-based XSS ======================= -->
 <div class="card card-cyber">
@@ -224,18 +235,18 @@ if (!empty($search_xss)) {
 
             window.addEventListener('load', updateGreeting);
         </script>
-
-        <?= render_hints([
-            "اضغط على زر التحديث بعد وضع بايلود مثل: <code>&lt;img src=1 onerror=alert('DOM_XSS')&gt;</code>",
-            "انظر إلى شريط عنوان المتصفح، ستلاحظ أن الرابط أصبح ينتهي بـ <code>#name=...</code> وجافاسكربت ينفذه مباشرة."
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود جافاسكربت مصاب\ndocument.getElementById("welcome").innerHTML = "مرحباً: " + userName;',
-            '// كود جافاسكربت آمن\ndocument.getElementById("welcome").textContent = "مرحباً: " + userName;\n// أو استخدام document.createTextNode()',
-            'في جانب العميل (Client-Side)، تجنب استخدام innerHTML أو document.write مع مدخلات المستخدم واستبدلها بـ textContent أو innerText.'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "اضغط على زر التحديث بعد وضع بايلود مثل: <code>&lt;img src=1 onerror=alert('DOM_XSS')&gt;</code>",
+    "انظر إلى شريط عنوان المتصفح، ستلاحظ أن الرابط أصبح ينتهي بـ <code>#name=...</code> وجافاسكربت ينفذه مباشرة."
+]); ?>
+
+<?= render_code_comparison(
+    '// كود جافاسكربت مصاب\ndocument.getElementById("welcome").innerHTML = "مرحباً: " + userName;',
+    '// كود جافاسكربت آمن\ndocument.getElementById("welcome").textContent = "مرحباً: " + userName;\n// أو استخدام document.createTextNode()',
+    'في جانب العميل (Client-Side)، تجنب استخدام innerHTML أو document.write مع مدخلات المستخدم واستبدلها بـ textContent أو innerText.'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

@@ -1,7 +1,5 @@
 <?php
-$page_title = "التحكم في الصلاحيات والكوكي (Broken Access Control) | مختبر الجوكر الأمني";
-require_once __DIR__ . '/../includes/header.php';
-
+require_once __DIR__ . '/../config.php';
 $sec = get_security_level();
 
 // في الوضع الضعيف، يتم الاعتماد على Cookie قادم من المتصفح
@@ -32,6 +30,9 @@ if ($sec === 'low') {
     // وتجاهل أي قيم قادمة من الكوكي
     $is_admin = false; // لا يمكن رفع الصلاحية بالكوكي
 }
+
+$page_title = "التحكم في الصلاحيات والكوكي (Broken Access Control) | مختبر الجوكر الأمني";
+require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
@@ -83,19 +84,19 @@ if ($sec === 'low') {
                 <a href="access_control.php?set_role=student" class="btn btn-outline-secondary btn-sm"><i class="fas fa-user-graduate me-1"></i> إعادة الكوكي إلى: student</a>
             </div>
         </div>
-
-        <?= render_hints([
-            "افتح أدوات المطورين في المتصفح بالضغط على <code>F12</code>.",
-            "توجه إلى تبويب <strong>Application</strong> (أو <strong>Storage</strong> في فايرفوكس) ثم اختر <strong>Cookies</strong>.",
-            "ابحث عن الكوكي باسم <code>user_role</code> وعدّل قيمته من <code>student</code> إلى <code>admin</code> ثم أعد تحديث الصفحة!"
-        ]); ?>
-
-        <?= render_code_comparison(
-            '// كود مصاب: الاعتماد على قيمة الكوكي المباشرة\n$role = $_COOKIE["user_role"];\nif ($role == "admin") {\n    show_admin_panel();\n}',
-            '// كود آمن: تخزين الصلاحيات في Session السيرفر مع HttpOnly\nif (!isset($_SESSION["logged_user"]) || $_SESSION["logged_user"]["role"] !== "admin") {\n    header("HTTP/1.1 403 Forbidden");\n    die("Access Denied");\n}',
-            'لا تعتمد أبداً على بيانات يرسلها العميل للتحقق من هويته أو صلاحياته. الرتب والصلاحيات يجب أن تُحفظ في الـ Server Session ويُمنح المتصفح فقط معرف جلسة عشوائي (Session ID) محمي بخاصية HttpOnly لمنع سرقته عبر XSS.'
-        ); ?>
     </div>
 </div>
+
+<?= render_hints([
+    "افتح أدوات المطورين في المتصفح بالضغط على <code>F12</code>.",
+    "توجه إلى تبويب <strong>Application</strong> (أو <strong>Storage</strong> في فايرفوكس) ثم اختر <strong>Cookies</strong>.",
+    "ابحث عن الكوكي باسم <code>user_role</code> وعدّل قيمته من <code>student</code> إلى <code>admin</code> ثم أعد تحديث الصفحة!"
+]); ?>
+
+<?= render_code_comparison(
+    '// كود مصاب: الاعتماد على قيمة الكوكي المباشرة\n$role = $_COOKIE["user_role"];\nif ($role == "admin") {\n    show_admin_panel();\n}',
+    '// كود آمن: تخزين الصلاحيات في Session السيرفر مع HttpOnly\nif (!isset($_SESSION["logged_user"]) || $_SESSION["logged_user"]["role"] !== "admin") {\n    header("HTTP/1.1 403 Forbidden");\n    die("Access Denied");\n}',
+    'لا تعتمد أبداً على بيانات يرسلها العميل للتحقق من هويته أو صلاحياته. الرتب والصلاحيات يجب أن تُحفظ في الـ Server Session ويُمنح المتصفح فقط معرف جلسة عشوائي (Session ID) محمي بخاصية HttpOnly لمنع سرقته عبر XSS.'
+); ?>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
