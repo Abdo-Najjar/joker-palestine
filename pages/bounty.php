@@ -157,6 +157,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                                 <option value="IDOR">CWE-639: Insecure Direct Object Reference</option>
                                 <option value="CSRF">CWE-352: Cross-Site Request Forgery</option>
                                 <option value="AuthBypass">CWE-287: Broken Authentication / Juggling</option>
+                                <option value="XXE">CWE-611: XML External Entity (XXE)</option>
+                                <option value="JWT">CWE-347: JWT Signature Verification Bypass</option>
+                                <option value="SSTI">CWE-1336: Server-Side Template Injection</option>
+                                <option value="Deserialization">CWE-502: Insecure Deserialization</option>
+                                <option value="RaceCondition">CWE-362: Race Condition (TOCTOU)</option>
+                                <option value="CORS">CWE-942: Permissive CORS Misconfiguration</option>
                             </select>
                         </div>
                         <div class="col-md-6">

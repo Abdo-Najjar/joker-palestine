@@ -312,7 +312,7 @@ $issue_date = date('Y/m/d');
             </div>
 
             <p class="cert-body-text">
-                قد أتم بنجاح متطلبات التدريب العملي المكثف في <strong class="text-info">مختبر الجوكر الفلسطيني لاختبار اختراق تطبيقات الويب (OWASP Top 10)</strong>، وأظهر كفاءة عالية في تحليل وفحص واكتشاف أشهر الثغرات الأمنية الحرجة بما فيها (SQLi, XSS, CSRF, LFI, Command Injection, IDOR, SSRF)، مع التطبيق العملي للحلول البرمجية والترقيع الدفاعي المعتمد وفق أفضل الممارسات القياسية.
+                قد أتم بنجاح متطلبات التدريب العملي المكثف في <strong class="text-info">مختبر الجوكر الفلسطيني لاختبار اختراق تطبيقات الويب (OWASP Top 10 & Advanced Web Security)</strong>، وأظهر كفاءة استثنائية في تحليل وفحص واكتشاف أخطر الثغرات الأمنية المتقدمة بما فيها: (SQLi, XSS, CSRF, LFI, Command Injection, IDOR, SSRF, XXE, JWT Attacks, SSTI, Insecure Deserialization, Race Conditions, CORS)، مع التطبيق العملي للحلول والترقيع الدفاعي البرمجي المعتمد وفق المعايير العالمية.
             </p>
 
             <div class="row align-items-center signature-block">

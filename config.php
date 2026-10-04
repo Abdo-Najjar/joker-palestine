@@ -45,7 +45,10 @@ $CHALLENGE_FLAGS = [
     'access_control' => ['title' => 'Access Control: التلاعب بالصلاحيات والكوكي', 'flag' => 'FLAG{Privilege_Escalation_Admin_Role_5502}'],
     'xxe'            => ['title' => 'XXE: حقن الكيانات الخارجية XML', 'flag' => 'FLAG{XXE_Entity_Local_File_Leaked_8192}'],
     'jwt'            => ['title' => 'JWT: تزوير توكن المصادقة (Alg None)', 'flag' => 'FLAG{JWT_Algorithm_None_Priv_Escalated_4319}'],
-    'ssti'           => ['title' => 'SSTI: حقن محركات القوالب (RCE)', 'flag' => 'FLAG{SSTI_Template_Injection_Code_Exec_9934}']
+    'ssti'           => ['title' => 'SSTI: حقن محركات القوالب (RCE)', 'flag' => 'FLAG{SSTI_Template_Injection_Code_Exec_9934}'],
+    'deserialization'=> ['title' => 'Deserialization: فك التسلسل غير الآمن (PHP Object Injection)', 'flag' => 'FLAG{Insecure_Deserialization_Object_Injected_5129}'],
+    'race_condition' => ['title' => 'Race Condition: سباق العمليات والتكرار (TOCTOU)', 'flag' => 'FLAG{Race_Condition_TOCTOU_Limit_Bypassed_7741}'],
+    'cors'           => ['title' => 'CORS: سوء تهيئة مشاركة الموارد وسرقة البيانات', 'flag' => 'FLAG{CORS_Arbitrary_Origin_Data_Theft_3810}']
 ];
 
 if (!isset($_SESSION['solved_flags'])) {

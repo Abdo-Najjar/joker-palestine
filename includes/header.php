@@ -345,6 +345,33 @@ $sec_level = get_security_level();
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'deserialization.php' ? 'active' : '' ?>" href="deserialization.php">
+                        <span><i class="fas fa-boxes-stacked me-2 text-warning"></i> 17. فك التسلسل (Deserialization)</span>
+                        <?php if (is_flag_solved('deserialization')): ?>
+                            <span class="badge badge-solved"><i class="fas fa-check"></i></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'race_condition.php' ? 'active' : '' ?>" href="race_condition.php">
+                        <span><i class="fas fa-stopwatch me-2 text-info"></i> 18. سباق العمليات (Race Condition)</span>
+                        <?php if (is_flag_solved('race_condition')): ?>
+                            <span class="badge badge-solved"><i class="fas fa-check"></i></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'cors.php' ? 'active' : '' ?>" href="cors.php">
+                        <span><i class="fas fa-network-wired me-2 text-danger"></i> 19. سوء تهيئة (CORS)</span>
+                        <?php if (is_flag_solved('cors')): ?>
+                            <span class="badge badge-solved"><i class="fas fa-check"></i></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+
                 <!-- Evaluation & Certification Section -->
                 <li class="nav-item my-2 border-top border-secondary pt-2">
                     <small class="text-warning text-uppercase fw-bold px-3 d-block mb-1"><i class="fas fa-award me-1"></i> التقييم والاعتماد</small>

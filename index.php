@@ -196,7 +196,7 @@ unset($_SESSION['flash_msg']);
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small">إجمالي التحديات</div>
-                        <h3 class="fw-bold text-white mb-0">19 تحدياً</h3>
+                        <h3 class="fw-bold text-white mb-0">22 تحدياً</h3>
                     </div>
                     <i class="fas fa-shield-virus fa-2x text-warning"></i>
                 </div>
@@ -626,6 +626,57 @@ unset($_SESSION['flash_msg']);
                 <p class="text-muted small mb-3">حقن تعبيرات برمجية مثل {{7*7}} داخل محرك القوالب والوصول لتنفيذ الأوامر عن بُعد.</p>
                 <div class="mt-auto">
                     <a href="pages/ssti.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 17. Insecure Deserialization -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-cyber h-100 p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-danger"><i class="fas fa-boxes-stacked me-1"></i> فك التسلسل</span>
+                    <?php if (is_flag_solved('deserialization')): ?>
+                        <span class="badge badge-solved"><i class="fas fa-check"></i> مكتمل</span>
+                    <?php endif; ?>
+                </div>
+                <h5 class="fw-bold text-info">17. فك التسلسل غير الآمن (Deserialization)</h5>
+                <p class="text-muted small mb-3">استغلال دالة unserialize() وتعديل خصائص الكائنات البرمجية وتفعيل الدوال السحرية.</p>
+                <div class="mt-auto">
+                    <a href="pages/deserialization.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 18. Race Condition -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-cyber h-100 p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-warning text-dark"><i class="fas fa-stopwatch me-1"></i> التزامن المالي</span>
+                    <?php if (is_flag_solved('race_condition')): ?>
+                        <span class="badge badge-solved"><i class="fas fa-check"></i> مكتمل</span>
+                    <?php endif; ?>
+                </div>
+                <h5 class="fw-bold text-info">18. سباق العمليات (Race Condition)</h5>
+                <p class="text-muted small mb-3">استغلال ثغرة TOCTOU عبر إرسال طلبات متزامنة بالتوازي لمضاعفة رصيد المحفظة والكوبونات.</p>
+                <div class="mt-auto">
+                    <a href="pages/race_condition.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 19. CORS Misconfiguration -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-cyber h-100 p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-danger"><i class="fas fa-network-wired me-1"></i> سياسة الأصول</span>
+                    <?php if (is_flag_solved('cors')): ?>
+                        <span class="badge badge-solved"><i class="fas fa-check"></i> مكتمل</span>
+                    <?php endif; ?>
+                </div>
+                <h5 class="fw-bold text-info">19. سوء تهيئة مشاركة الموارد (CORS)</h5>
+                <p class="text-muted small mb-3">استغلال عكس ترويسة Origin مع الاعتمادات لسحب البيانات المصرفية السرية من موقع المهاجم.</p>
+                <div class="mt-auto">
+                    <a href="pages/cors.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
                 </div>
             </div>
         </div>
