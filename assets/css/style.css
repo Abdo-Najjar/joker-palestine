@@ -121,7 +121,7 @@ form.bg-dark, .card form.bg-dark {
 /* ==============================================================================
    3. الأكواد والـ Code Blocks (إلغاء اللون الوردي المزعج وضمان وضوح كامل)
    ============================================================================== */
-code {
+code:not(pre code) {
     direction: ltr !important;
     unicode-bidi: isolate !important;
     font-family: 'Consolas', 'Courier New', Courier, monospace !important;
@@ -134,19 +134,19 @@ code {
     font-weight: 600 !important;
 }
 
-code.text-warning, .text-warning code {
+code.text-warning:not(pre code), .text-warning code:not(pre code) {
     color: #fbbf24 !important;
     background-color: #171103 !important;
     border: 1px solid #78350f !important;
 }
 
-code.text-danger, .text-danger code {
+code.text-danger:not(pre code), .text-danger code:not(pre code) {
     color: #f87171 !important;
     background-color: #1c0a0a !important;
     border: 1px solid #7f1d1d !important;
 }
 
-code.text-success, .text-success code {
+code.text-success:not(pre code), .text-success code:not(pre code) {
     color: #34d399 !important;
     background-color: #061912 !important;
     border: 1px solid #064e3b !important;
@@ -181,6 +181,27 @@ pre code {
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
+    color: inherit !important;
+}
+
+/* أزرار وخيارات الاختيار الراديوي والـ Checkbox */
+.form-check-input {
+    background-color: #080d18 !important;
+    border: 1.5px solid #334155 !important;
+}
+.form-check-input:checked {
+    background-color: #06b6d4 !important;
+    border-color: #06b6d4 !important;
+}
+.btn-outline-secondary {
+    border-color: #334155 !important;
+    color: #cbd5e1 !important;
+    background-color: rgba(15, 23, 42, 0.6) !important;
+}
+.btn-outline-secondary:hover {
+    border-color: #06b6d4 !important;
+    color: #ffffff !important;
+    background-color: rgba(6, 182, 212, 0.25) !important;
 }
 
 /* ==============================================================================

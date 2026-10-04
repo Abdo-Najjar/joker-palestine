@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $page_title = "تزوير الطلب من جانب الخادم (SSRF) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
@@ -59,6 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['url'])) {
     </div>
     <span class="badge bg-danger fs-6 px-3 py-2"><i class="fas fa-server me-1"></i> فحص الشبكات الداخلية والـ Cloud Metadata</span>
 </div>
+
+<?= render_diagram(
+    'ssrf_diagram.jpg',
+    'مخطط توضيحي: مسار تدفق هجوم تزوير الطلب من جانب الخادم (SSRF Attack Flow)',
+    'يوضح كيف يخدع المهاجم السيرفر الخارجي ليقوم بجلب عناوين الشبكة الداخلية (Localhost) وسحب بيانات الـ Cloud Metadata والملفات الحساسة نيابة عنه.'
+); ?>
 
 <div class="card card-cyber mb-4">
     <div class="card-cyber-header d-flex justify-content-between align-items-center">

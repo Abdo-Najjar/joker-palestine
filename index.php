@@ -121,14 +121,23 @@ unset($_SESSION['flash_msg']);
                 </ul>
             </div>
 
+            <a href="pages/tools.php" class="btn btn-outline-info btn-sm fw-bold text-nowrap">
+                <i class="fas fa-terminal me-1"></i> الأدوات 🛠️
+            </a>
+            <a href="pages/bounty.php" class="btn btn-outline-success btn-sm fw-bold text-nowrap">
+                <i class="fas fa-dollar-sign me-1"></i> HackerOne 💰
+            </a>
             <a href="pages/quiz.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
                 <i class="fas fa-graduation-cap me-1"></i> الاختبار والشهادة 🎓
             </a>
-            <a href="docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-info btn-sm fw-bold text-nowrap">
-                <i class="fas fa-file-pdf me-1 text-danger"></i> دليل المختبر PDF
+            <a href="pages/settings.php" class="btn btn-outline-secondary btn-sm fw-bold text-nowrap" title="إعدادات المختبر">
+                <i class="fas fa-cog me-1"></i> إعدادات
             </a>
-            <a href="reset.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
-                <i class="fas fa-redo-alt me-1"></i> إعادة ضبط المختبر
+            <a href="docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-primary btn-sm fw-bold text-nowrap">
+                <i class="fas fa-file-pdf me-1 text-danger"></i> دليل PDF
+            </a>
+            <a href="reset.php" class="btn btn-outline-danger btn-sm fw-bold text-nowrap">
+                <i class="fas fa-redo-alt me-1"></i> ضبط
             </a>
         </div>
     </div>
@@ -187,7 +196,7 @@ unset($_SESSION['flash_msg']);
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="text-muted small">إجمالي التحديات</div>
-                        <h3 class="fw-bold text-white mb-0">16 تحدياً</h3>
+                        <h3 class="fw-bold text-white mb-0">19 تحدياً</h3>
                     </div>
                     <i class="fas fa-shield-virus fa-2x text-warning"></i>
                 </div>
@@ -258,6 +267,44 @@ unset($_SESSION['flash_msg']);
                     <i class="fas fa-certificate fa-3x text-warning"></i>
                 </div>
                 <div class="text-info small mt-2 fw-bold">معتمدة من مختبر الجوكر الفلسطيني</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hacker Tools & Bug Bounty Dual Showcase Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card card-cyber p-4 h-100 border-info shadow-lg" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(14, 20, 36, 0.95) 100%);">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-info text-dark fw-bold px-3 py-1"><i class="fas fa-terminal me-1"></i> أدوات الهاكرز</span>
+                    <span class="badge bg-black border border-info text-info">Live Playbook</span>
+                </div>
+                <h4 class="text-white fw-bold mb-2">ترسانة أدوات الهاكر الأخلاقي (Hacking Tools)</h4>
+                <p class="text-muted small mb-3">
+                    أوامر حقيقية مجهزة ومختبرة لأشهر أدوات الاختراق: <strong>Burp Suite, sqlmap, ffuf, Hydra, cURL</strong> مع أمثلة مباشرة على صفحات وتحديات المختبر.
+                </p>
+                <div class="mt-auto">
+                    <a href="pages/tools.php" class="btn btn-outline-info w-100 fw-bold py-2 shadow-sm">
+                        <i class="fas fa-tools me-1"></i> فتح ترسانة الأدوات والأوامر &larr;
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-cyber p-4 h-100 border-success shadow-lg" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(14, 20, 36, 0.95) 100%);">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="badge bg-success text-dark fw-bold px-3 py-1"><i class="fas fa-dollar-sign me-1"></i> HackerOne Style</span>
+                    <span class="badge bg-black border border-success text-success">Bug Bounty</span>
+                </div>
+                <h4 class="text-white fw-bold mb-2">برنامج مكافآت الثغرات وتقارير الهاكرز</h4>
+                <p class="text-muted small mb-3">
+                    محاكاة حقيقية لمنصة <strong>HackerOne</strong>: قدّم تقارير احترافية عن الثغرات التي تكتشفها، واجمع المكافآت المالية الافتراضية، واطلع على أرشيف تقارير الهاكرز الواقعية.
+                </p>
+                <div class="mt-auto">
+                    <a href="pages/bounty.php" class="btn btn-outline-success w-100 fw-bold py-2 shadow-sm">
+                        <i class="fas fa-bug me-1"></i> دخول برنامج مكافآت الثغرات &larr;
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -528,6 +575,57 @@ unset($_SESSION['flash_msg']);
                 <p class="text-muted small mb-3">تعديل ملف تعريف الارتباط user_role للدخول على لوحة المشرف وتصعيد الصلاحيات.</p>
                 <div class="mt-auto">
                     <a href="pages/access_control.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. XXE Injection -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-cyber h-100 p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-danger"><i class="fas fa-file-code me-1"></i> XML External Entity</span>
+                    <?php if (is_flag_solved('xxe')): ?>
+                        <span class="badge badge-solved"><i class="fas fa-check"></i> مكتمل</span>
+                    <?php endif; ?>
+                </div>
+                <h5 class="fw-bold text-info">14. حقن الكيانات الخارجية (XXE)</h5>
+                <p class="text-muted small mb-3">استغلال محلل XML غير المحمي عبر DTD و SYSTEM لقراءة الملفات الحساسة وسرقة البيانات.</p>
+                <div class="mt-auto">
+                    <a href="pages/xxe.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. JWT Attacks -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-cyber h-100 p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-warning text-dark"><i class="fas fa-id-badge me-1"></i> تزوير التوكنات</span>
+                    <?php if (is_flag_solved('jwt')): ?>
+                        <span class="badge badge-solved"><i class="fas fa-check"></i> مكتمل</span>
+                    <?php endif; ?>
+                </div>
+                <h5 class="fw-bold text-info">15. تزوير توكنات المصادقة (JWT)</h5>
+                <p class="text-muted small mb-3">تجاوز توقيع التوكن واستغلال خوارزمية "alg": "none" وتصعيد الصلاحيات إلى مدير النظام.</p>
+                <div class="mt-auto">
+                    <a href="pages/jwt.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 16. SSTI -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card card-cyber h-100 p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-info text-dark"><i class="fas fa-cubes me-1"></i> RCE للقوالب</span>
+                    <?php if (is_flag_solved('ssti')): ?>
+                        <span class="badge badge-solved"><i class="fas fa-check"></i> مكتمل</span>
+                    <?php endif; ?>
+                </div>
+                <h5 class="fw-bold text-info">16. حقن محركات القوالب (SSTI)</h5>
+                <p class="text-muted small mb-3">حقن تعبيرات برمجية مثل {{7*7}} داخل محرك القوالب والوصول لتنفيذ الأوامر عن بُعد.</p>
+                <div class="mt-auto">
+                    <a href="pages/ssti.php" class="btn btn-outline-info btn-sm w-100 fw-bold">دخول التحدي &larr;</a>
                 </div>
             </div>
         </div>

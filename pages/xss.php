@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $page_title = "ثغرات السكربتات عبر المواقع (XSS) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
@@ -43,15 +43,11 @@ if (!empty($search_xss)) {
 </div>
 
 <!-- مخطط معماري توضيحي لمسار هجوم XSS -->
-<div class="card card-cyber mb-4 overflow-hidden border-info shadow-lg">
-    <div class="card-header bg-dark text-info fw-bold py-2 d-flex justify-content-between align-items-center">
-        <span><i class="fas fa-project-diagram me-2"></i> مخطط توضيحي: دورة حياة هجوم Cross-Site Scripting (XSS) وسرقة الكوكيز</span>
-        <span class="badge bg-info text-dark">مخطط تعليمي للطلاب</span>
-    </div>
-    <div class="card-body p-0 text-center bg-black">
-        <img src="../assets/images/xss_diagram.jpg" alt="XSS Attack Cycle Diagram" class="img-fluid" style="max-height: 380px; width: 100%; object-fit: contain;">
-    </div>
-</div>
+<?= render_diagram(
+    'xss_diagram.jpg',
+    'مخطط توضيحي: دورة حياة هجوم تزوير الأكواد عبر المواقع (XSS Attack Cycle)',
+    'رسم تفصيلي يوضح كيف يتم حقن سكربتات جافاسكربت خبيثة وتمريرها للمتصفح وسرقة جلسات المستخدمين (Session Hijacking).'
+); ?>
 
 <!-- ======================= 1. Reflected XSS ======================= -->
 <div class="card card-cyber mb-5">

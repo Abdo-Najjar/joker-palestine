@@ -92,15 +92,11 @@ if (isset($_GET['search'])) {
 </div>
 
 <!-- مخطط معماري توضيحي لمسار الهجوم -->
-<div class="card card-cyber mb-4 overflow-hidden border-info shadow-lg">
-    <div class="card-header bg-dark text-info fw-bold py-2 d-flex justify-content-between align-items-center">
-        <span><i class="fas fa-project-diagram me-2"></i> مخطط توضيحي: كيف يخترق المهاجم السيرفر وقاعدة البيانات عبر حقن SQL؟</span>
-        <span class="badge bg-info text-dark">مخطط تعليمي للطلاب</span>
-    </div>
-    <div class="card-body p-0 text-center bg-black">
-        <img src="../assets/images/sqli_diagram.jpg" alt="SQL Injection Flow Diagram" class="img-fluid" style="max-height: 380px; width: 100%; object-fit: contain;">
-    </div>
-</div>
+<?= render_diagram(
+    'sqli_diagram.jpg',
+    'مخطط توضيحي: مسار تدفق هجوم حقن قواعد البيانات (SQL Injection Flow)',
+    'تحليل بصري لكيفية كسر سياق استعلامات قواعد البيانات، وتجاوز شاشات تسجيل الدخول واستخراج الجداول السرية عبر UNION.'
+); ?>
 
 <!-- ================================= تحدي 1 ================================= -->
 <div class="card card-cyber mb-5">

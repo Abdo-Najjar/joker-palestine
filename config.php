@@ -42,7 +42,10 @@ $CHALLENGE_FLAGS = [
     'ssrf'           => ['title' => 'SSRF: تزوير الطلب من جهة السيرفر', 'flag' => 'FLAG{SSRF_Internal_Server_Request_7710}'],
     'bruteforce'     => ['title' => 'Brute Force: التخمين على كلمات المرور', 'flag' => 'FLAG{Brute_Force_Password_Cracked_2281}'],
     'type_juggling'  => ['title' => 'Type Juggling: مقارنات PHP الضعيفة', 'flag' => 'FLAG{PHP_Type_Juggling_Bypassed_6672}'],
-    'access_control' => ['title' => 'Access Control: التلاعب بالصلاحيات والكوكي', 'flag' => 'FLAG{Privilege_Escalation_Admin_Role_5502}']
+    'access_control' => ['title' => 'Access Control: التلاعب بالصلاحيات والكوكي', 'flag' => 'FLAG{Privilege_Escalation_Admin_Role_5502}'],
+    'xxe'            => ['title' => 'XXE: حقن الكيانات الخارجية XML', 'flag' => 'FLAG{XXE_Entity_Local_File_Leaked_8192}'],
+    'jwt'            => ['title' => 'JWT: تزوير توكن المصادقة (Alg None)', 'flag' => 'FLAG{JWT_Algorithm_None_Priv_Escalated_4319}'],
+    'ssti'           => ['title' => 'SSTI: حقن محركات القوالب (RCE)', 'flag' => 'FLAG{SSTI_Template_Injection_Code_Exec_9934}']
 ];
 
 if (!isset($_SESSION['solved_flags'])) {
@@ -109,8 +112,37 @@ function get_security_level() {
     return $_SESSION['security_level'] ?? 'low';
 }
 
+// دالات إعدادات المختبر والخيارات التفضيلية (Lab Settings System)
+function get_lab_setting($key, $default = null) {
+    if (!isset($_SESSION['lab_settings'])) {
+        $_SESSION['lab_settings'] = [
+            'show_hints'           => false, // default hidden
+            'show_code_comparison' => true,
+            'show_diagrams'        => true,
+            'enable_sounds'        => true,
+            'enable_confetti'      => true,
+            'enable_waf'           => false,
+            'student_name'         => $_SESSION['student_name'] ?? 'الباحث الأمني المتميز'
+        ];
+    }
+    if ($default !== null && !isset($_SESSION['lab_settings'][$key])) {
+        return $default;
+    }
+    return $_SESSION['lab_settings'][$key] ?? $default;
+}
+
+function update_lab_setting($key, $value) {
+    get_lab_setting('init');
+    $_SESSION['lab_settings'][$key] = $value;
+}
+
 // مكون إرشادي لعرض الكود المصاب مقابل الكود الآمن
 function render_code_comparison($vuln_code, $secure_code, $explanation) {
+    // التحقق من تفعيل إظهار مقارنة الأكواد في الإعدادات
+    if (!get_lab_setting('show_code_comparison', true)) {
+        return;
+    }
+
     static $compare_count = 0;
     $compare_count++;
     $collapse_id = "codeCompareCollapse_" . $compare_count;
@@ -165,43 +197,117 @@ function render_code_comparison($vuln_code, $secure_code, $explanation) {
     <?php
 }
 
-// مكون التلميحات المتدرجة (مخفي افتراضياً بالكامل لتحدي الطالب)
+// مكون التلميحات المتدرجة (مخفي افتراضياً بالكامل لتحدي الطالب أو يمكن فتحه من الإعدادات)
 function render_hints($hints) {
     static $hint_idx = 0;
     $hint_idx++;
     $accordion_id = "hintsAccordion_" . $hint_idx;
     $collapse_id = "collapseHints_" . $hint_idx;
     $heading_id = "headingHints_" . $hint_idx;
+    $is_expanded = (bool)get_lab_setting('show_hints', false);
     ?>
     <div class="my-4" id="<?= $accordion_id ?>">
         <div class="card card-cyber rounded-3 shadow-sm" style="background-color: #0d1424 !important; border: 1.5px solid #334155 !important;">
             <div class="card-header p-2 bg-transparent border-0" id="<?= $heading_id ?>">
-                <button class="btn btn-sm btn-outline-warning w-100 text-start d-flex justify-content-between align-items-center fw-bold py-2 px-3 collapsed" 
+                <button class="btn btn-sm btn-outline-warning w-100 text-start d-flex justify-content-between align-items-center fw-bold py-2 px-3 <?= $is_expanded ? '' : 'collapsed' ?>" 
                         type="button" 
                         data-bs-toggle="collapse" 
                         data-bs-target="#<?= $collapse_id ?>" 
-                        aria-expanded="false" 
+                        aria-expanded="<?= $is_expanded ? 'true' : 'false' ?>" 
                         aria-controls="<?= $collapse_id ?>"
                         style="border-color: #f59e0b !important; color: #fbbf24 !important;">
                     <span>
                         <i class="fas fa-lightbulb text-warning me-2"></i>
-                        💡 تلميحات ومساعدة للحل (مخفية افتراضياً)
+                        💡 تلميحات ومساعدة للحل <?= $is_expanded ? '(مفتوحة)' : '(مخفية افتراضياً)' ?>
                     </span>
                     <span class="badge bg-secondary font-monospace" style="font-size: 0.75rem;">
-                        اضغط للإظهار <i class="fas fa-chevron-down ms-1"></i>
+                        <?= $is_expanded ? 'اضغط للإخفاء' : 'اضغط للإظهار' ?> <i class="fas fa-chevron-down ms-1"></i>
                     </span>
                 </button>
             </div>
-            <div id="<?= $collapse_id ?>" class="collapse" aria-labelledby="<?= $heading_id ?>">
+            <div id="<?= $collapse_id ?>" class="collapse <?= $is_expanded ? 'show' : '' ?>" aria-labelledby="<?= $heading_id ?>">
                 <div class="card-body pt-0 pb-3 px-3 border-top border-secondary border-opacity-25 mt-2" style="background-color: #0d1424 !important;">
                     <div class="alert alert-secondary py-2 px-3 mb-3 small text-warning rounded" style="background-color: #070a12 !important; border: 1px solid #334155 !important; color: #fbbf24 !important;">
-                        <i class="fas fa-eye-slash me-1"></i> تم إخفاء هذه التلميحات افتراضياً لتتمكن من التفكير وتجربة الحل بنفسك أولاً:
+                        <i class="fas fa-eye-slash me-1"></i> تم إخفاء هذه التلميحات افتراضياً لتتمكن من التفكير وتجربة الحل بنفسك أولاً (يمكن تعديل ذلك من صفحة الإعدادات):
                     </div>
                     <ol class="mb-0 text-light ps-3" style="color: #e2e8f0 !important;">
                         <?php foreach ($hints as $hint): ?>
                             <li class="mb-2" style="font-size: 0.95rem; color: #e2e8f0 !important; line-height: 1.7;"><?= $hint ?></li>
                         <?php endforeach; ?>
                     </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+// مكون عرض المخططات المعمارية والتوضيحية مع ميزة التكبير عالي الدقة (Lightbox Modal)
+function render_diagram($image_name, $title, $description = '', $is_root = false) {
+    // التحقق من تفعيل إظهار المخططات في الإعدادات
+    if (!get_lab_setting('show_diagrams', true)) {
+        return;
+    }
+
+    static $diag_count = 0;
+    $diag_count++;
+    $modal_id = "diagramModal_" . $diag_count;
+    $img_dir = $is_root ? 'assets/images/' : '../assets/images/';
+    $img_src = $img_dir . $image_name;
+    ?>
+    <div class="card card-cyber mb-4 overflow-hidden shadow-lg" style="border: 1.5px solid #06b6d4 !important; background: #0b0f19 !important;">
+        <div class="card-header py-3 px-3 d-flex flex-wrap justify-content-between align-items-center gap-2" style="background: linear-gradient(135deg, #0f172a 0%, #080d1a 100%); border-bottom: 1px solid #1e293b;">
+            <div class="d-flex align-items-center">
+                <div class="p-2 rounded-circle bg-info bg-opacity-10 text-info border border-info me-2 d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px; flex-shrink: 0;">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div>
+                    <h6 class="mb-0 text-white fw-bold d-flex align-items-center">
+                        <span><?= htmlspecialchars($title) ?></span>
+                    </h6>
+                    <?php if (!empty($description)): ?>
+                        <small class="text-muted d-block mt-1"><?= htmlspecialchars($description) ?></small>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-black border border-info text-info px-2 py-1 small">
+                    <i class="fas fa-layer-group me-1"></i> مسار تدفق الهجوم
+                </span>
+                <button type="button" class="btn btn-sm btn-outline-info fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#<?= $modal_id ?>">
+                    <i class="fas fa-search-plus me-1"></i> تكبير المخطط بدقة فائقة 🔍
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0 text-center position-relative" style="background: #060911;">
+            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#<?= $modal_id ?>" title="اضغط لتكبير المخطط وفحصه بدقة عالية" style="display:block; cursor: zoom-in;">
+                <img src="<?= $img_src ?>" alt="<?= htmlspecialchars($title) ?>" class="img-fluid" style="max-height: 420px; width: 100%; object-fit: contain; padding: 12px; transition: transform 0.3s ease;">
+            </a>
+            <div class="p-2 text-center border-top border-secondary border-opacity-25 bg-black bg-opacity-40">
+                <small class="text-info fw-semibold">
+                    <i class="fas fa-mouse-pointer me-1"></i> اضغط على الصورة في أي مكان لفتحها بحجم كامل وشاشة عريضة فائقة الوضوح (Full HD)
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تكبير المخطط بحجم الشاشة الكاملة (Lightbox High-Res Modal) -->
+    <div class="modal fade" id="<?= $modal_id ?>" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" style="max-width: 92vw;">
+            <div class="modal-content shadow-lg border-info" style="background: #080d1a; border: 2px solid #06b6d4 !important; box-shadow: 0 0 35px rgba(6, 182, 212, 0.4) !important;">
+                <div class="modal-header border-bottom border-secondary border-opacity-50 py-2 px-3" style="background: #0f172a;">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-shield-alt text-info me-2 fs-5"></i>
+                        <h5 class="modal-title text-white fw-bold mb-0"><?= htmlspecialchars($title) ?></h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-2 text-center bg-black">
+                    <img src="<?= $img_src ?>" alt="<?= htmlspecialchars($title) ?>" class="img-fluid rounded" style="max-height: 85vh; width: 100%; object-fit: contain;">
+                </div>
+                <div class="modal-footer border-top border-secondary border-opacity-50 py-2 justify-content-between" style="background: #0f172a;">
+                    <span class="small text-muted">مختبر الجوكر الفلسطيني | إعداد وتطوير: <strong class="text-info">المهندس احمد سليم 🇵🇸</strong></span>
+                    <button type="button" class="btn btn-secondary btn-sm px-4 fw-bold" data-bs-dismiss="modal">إغلاق النافذة</button>
                 </div>
             </div>
         </div>
@@ -216,22 +322,30 @@ function render_flag_box($flag_key) {
         $flag = $CHALLENGE_FLAGS[$flag_key]['flag'];
         $title = $CHALLENGE_FLAGS[$flag_key]['title'] ?? 'التحدي الأمني';
         ?>
-        <div class="alert alert-success border-2 shadow-sm d-flex flex-wrap align-items-center justify-content-between p-3 my-3">
-            <div class="mb-2 mb-md-0">
-                <h5 class="alert-heading mb-1 text-success fw-bold">
-                    <i class="fas fa-trophy text-warning me-2"></i> مبروك! تم حل التحدي بنجاح!
-                </h5>
-                <span class="text-white-50">العلم الخاص بك هو: </span>
-                <code class="fs-5 fw-bold text-warning bg-black px-2 py-1 rounded border border-warning font-monospace user-select-all"><?= htmlspecialchars($flag) ?></code>
+        <div class="p-3 my-3 rounded-3 shadow-lg d-flex flex-wrap align-items-center justify-content-between gap-3" 
+             style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(14, 20, 36, 0.95) 100%); border: 1.5px solid #10b981; box-shadow: 0 0 20px rgba(16, 185, 129, 0.25) !important;">
+            <div class="d-flex align-items-center gap-3">
+                <div class="p-2 rounded-circle bg-success bg-opacity-20 border border-success text-success d-flex align-items-center justify-content-center shadow" style="width: 48px; height: 48px; flex-shrink: 0;">
+                    <i class="fas fa-trophy fs-4 text-warning"></i>
+                </div>
+                <div>
+                    <h5 class="mb-1 text-success fw-bold d-flex align-items-center">
+                        <span>مبروك! تم حل التحدي واكتشاف العلم بنجاح</span>
+                        <span class="badge bg-success text-dark fw-bold ms-2 py-1 px-2" style="font-size: 0.72rem;">مكتمل 100%</span>
+                    </h5>
+                    <div class="d-flex align-items-center gap-2 mt-1">
+                        <span class="text-white-50 small">راية العلم:</span>
+                        <code class="fw-bold font-monospace user-select-all" style="color: #fbbf24 !important; background: #07090e !important; border: 1px solid #f59e0b !important; padding: 3px 10px !important; border-radius: 6px !important; font-size: 1rem;"><?= htmlspecialchars($flag) ?></code>
+                    </div>
+                </div>
             </div>
             <div class="d-flex align-items-center gap-2">
-                <button type="button" class="btn btn-sm btn-outline-warning copy-flag-btn" data-flag="<?= htmlspecialchars($flag) ?>">
+                <button type="button" class="btn btn-sm btn-outline-warning copy-flag-btn fw-bold px-3" data-flag="<?= htmlspecialchars($flag) ?>">
                     <i class="fas fa-copy me-1"></i> نسخ العلم
                 </button>
-                <button type="button" class="btn btn-sm btn-warning text-dark fw-bold" onclick="triggerConfettiCelebration(<?= htmlspecialchars(json_encode($title)) ?>, <?= htmlspecialchars(json_encode($flag)) ?>)">
+                <button type="button" class="btn btn-sm btn-warning text-dark fw-bold px-3 shadow" onclick="triggerConfettiCelebration(<?= htmlspecialchars(json_encode($title)) ?>, <?= htmlspecialchars(json_encode($flag)) ?>)">
                     <i class="fas fa-magic me-1"></i> احتفل بالفوز 🎊
                 </button>
-                <span class="badge bg-success fs-6"><i class="fas fa-check-circle me-1"></i> مكتمل</span>
             </div>
         </div>
         <?php
@@ -261,57 +375,68 @@ function render_celebration($is_root = false) {
 
     <!-- نافذة التهنئة المنبثقة للاحتفال بحل التحدي (Celebration Modal) -->
     <div class="modal fade" id="celebrationModal" tabindex="-1" aria-labelledby="celebrationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-warning shadow-lg" style="background: radial-gradient(circle at top, #1a2236 0%, #0d1322 100%); color: #fff; border-width: 2px; box-shadow: 0 0 35px rgba(245, 158, 11, 0.45) !important;">
-                <div class="modal-header border-bottom border-warning border-opacity-25 pb-2">
-                    <div class="d-flex align-items-center">
-                        <span class="fs-1 me-2">🏆</span>
-                        <div>
-                            <h5 class="modal-title fw-bold text-warning mb-0" id="celebrationModalLabel">🎉 ألـــف مـبـروك يا بـطـل! تم حل التحدي بنجاح!</h5>
-                            <small class="text-white-50">إنجاز جديد ومتميز يُضاف إلى مسيرتك في اختبار اختراق تطبيقات الويب</small>
+        <div class="modal-dialog modal-dialog-centered modal-lg" style="max-width: 640px;">
+            <div class="modal-content border-warning shadow-lg" style="background: radial-gradient(circle at top, #161f33 0%, #090e1a 100%); color: #fff; border-width: 2px; border-color: #f59e0b !important; box-shadow: 0 0 40px rgba(245, 158, 11, 0.45) !important; border-radius: 16px;">
+                <div class="modal-header border-bottom border-warning border-opacity-25 pb-3 pt-3 px-4" style="background: rgba(14, 20, 36, 0.95); border-radius: 14px 14px 0 0;">
+                    <div class="d-flex align-items-center w-100">
+                        <div class="p-2 rounded-circle bg-warning bg-opacity-10 border border-warning text-center me-3 d-flex align-items-center justify-content-center shadow" style="width: 52px; height: 52px; flex-shrink: 0;">
+                            <span class="fs-2">🏆</span>
                         </div>
+                        <div class="flex-grow-1">
+                            <h4 class="modal-title fw-bold text-warning mb-1" id="celebrationModalLabel" style="text-shadow: 0 0 15px rgba(245, 158, 11, 0.4);">
+                                🎉 ألـــف مـبـروك يا بـطـل! تم حل التحدي بنجاح!
+                            </h4>
+                            <div class="text-light text-opacity-75 small">إنجاز جديد ومتميز يُضاف إلى مسيرتك في اختبار اختراق تطبيقات الويب</div>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center py-4">
+                <div class="modal-body text-center py-4 px-4">
                     <div class="mb-3">
-                        <span class="badge bg-secondary mb-1" style="font-size: 0.78rem;">التحدي الأمني المكتشف</span>
-                        <h4 class="text-info fw-bold mb-0" id="celebrationChallengeTitle"><?= htmlspecialchars($title) ?></h4>
+                        <span class="badge bg-dark border border-secondary text-info mb-1 px-3 py-1" style="font-size: 0.8rem;">التحدي الأمني المكتشف</span>
+                        <h4 class="text-white fw-bold mb-0 mt-1" id="celebrationChallengeTitle"><?= htmlspecialchars($title) ?></h4>
                     </div>
 
-                    <div class="bg-black bg-opacity-75 p-3 rounded-3 border border-warning my-3 text-center shadow-sm">
-                        <div class="text-white-50 small mb-1">
-                            <i class="fas fa-flag text-warning me-1"></i> راية العلم السرية (Flag):
+                    <div class="p-3 rounded-3 my-3 text-center shadow-lg" style="background: #070a12; border: 1.5px solid #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.2) !important;">
+                        <div class="d-flex justify-content-between align-items-center mb-2 px-2">
+                            <span class="text-warning small fw-bold">
+                                <i class="fas fa-flag me-1"></i> راية العلم السرية (Secret Flag):
+                            </span>
+                            <span class="badge bg-warning text-dark font-monospace fw-bold">CAPTURED</span>
                         </div>
-                        <code class="fs-4 text-warning fw-bold font-monospace d-block my-2 user-select-all" id="celebrationFlagText"><?= htmlspecialchars($flag) ?></code>
-                        <button type="button" class="btn btn-outline-warning btn-sm copy-flag-btn" id="celebrationCopyBtn" data-flag="<?= htmlspecialchars($flag) ?>">
+                        <div class="p-2 bg-black rounded border border-secondary border-opacity-50 my-2 position-relative">
+                            <code class="text-warning fw-bold font-monospace d-block user-select-all" id="celebrationFlagText" style="font-size: 1.15rem; letter-spacing: 0.5px; word-break: break-all; color: #fbbf24 !important; background: transparent !important; border: none !important;"><?= htmlspecialchars($flag) ?></code>
+                        </div>
+                        <button type="button" class="btn btn-outline-warning btn-sm copy-flag-btn px-4 fw-bold shadow-sm" id="celebrationCopyBtn" data-flag="<?= htmlspecialchars($flag) ?>">
                             <i class="fas fa-copy me-1"></i> نسخ العلم للحافظة
                         </button>
                     </div>
 
-                    <div class="alert alert-success bg-opacity-10 border-success py-2 mb-3 small text-start d-flex align-items-center">
-                        <i class="fas fa-chart-line text-success fs-3 me-2"></i>
+                    <div class="p-3 mb-3 rounded-3 text-start d-flex align-items-center shadow-sm" style="background-color: #071712; border: 1px solid #10b981;">
+                        <div class="me-3 p-2 rounded-circle bg-success bg-opacity-20 text-success d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; flex-shrink: 0;">
+                            <i class="fas fa-check-circle fs-4"></i>
+                        </div>
                         <div>
-                            <strong>تم تسجيل هذا الإنجاز تلقائياً بنجاح!</strong>
-                            <div class="text-white-50">تم احتساب النتيجة وتحديث عداد الأعلام في لوحة التحكم الرئيسية.</div>
+                            <strong class="text-white d-block mb-1 fs-6">تم تسجيل واحتساب هذا الإنجاز تلقائياً بنجاح! 🎯</strong>
+                            <div class="small" style="color: #a7f3d0; line-height: 1.5;">تم تحديث عداد الأعلام وسجل نقاطك في لوحة التحكم الرئيسية والمخططات البيانية.</div>
                         </div>
                     </div>
 
-                    <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
-                        <button type="button" class="btn btn-warning fw-bold text-dark px-3 shadow" onclick="fullCelebrationBlast()">
+                    <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+                        <button type="button" class="btn btn-warning fw-bold text-dark px-4 py-2 shadow" style="box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4) !important;" onclick="fullCelebrationBlast()">
                             <i class="fas fa-magic me-1"></i> إطلاق الألعاب النارية مجدداً 🎊
                         </button>
-                        <button type="button" class="btn btn-outline-info fw-bold px-3" onclick="playVictoryChime()">
+                        <button type="button" class="btn btn-outline-info fw-bold px-4 py-2" onclick="playVictoryChime()">
                             <i class="fas fa-volume-up me-1"></i> نغمة الفوز 🔊
                         </button>
                     </div>
                 </div>
-                <div class="modal-footer border-top border-secondary border-opacity-25 justify-content-between py-2">
-                    <div class="small text-white-50 d-flex align-items-center">
-                        <img src="<?= $img_path ?>" alt="الجوكر" class="rounded-circle border border-info me-2" style="width: 26px; height: 26px; object-fit: cover;">
-                        <span>إعداد وتطوير: <strong class="text-info">المهندس احمد سليم 🇵🇸</strong></span>
+                <div class="modal-footer border-top border-secondary border-opacity-25 justify-content-between py-2 px-4" style="background: rgba(14, 20, 36, 0.95); border-radius: 0 0 14px 14px;">
+                    <div class="small d-flex align-items-center text-light">
+                        <img src="<?= $img_path ?>" alt="الجوكر" class="rounded-circle border border-warning me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                        <span>إعداد وتطوير: <strong class="text-warning">المهندس احمد سليم</strong> 🇵🇸</span>
                     </div>
-                    <button type="button" class="btn btn-secondary btn-sm px-3 fw-bold" data-bs-dismiss="modal">متابعة التحديات</button>
+                    <button type="button" class="btn btn-secondary btn-sm px-4 fw-bold" data-bs-dismiss="modal">متابعة التحديات &larr;</button>
                 </div>
             </div>
         </div>

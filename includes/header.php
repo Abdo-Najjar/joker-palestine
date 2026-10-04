@@ -164,14 +164,23 @@ $sec_level = get_security_level();
             </ul>
 
             <div class="d-flex align-items-center gap-2">
+                <a href="tools.php" class="btn btn-outline-info btn-sm fw-bold text-nowrap">
+                    <i class="fas fa-terminal me-1"></i> الأدوات 🛠️
+                </a>
+                <a href="bounty.php" class="btn btn-outline-success btn-sm fw-bold text-nowrap">
+                    <i class="fas fa-dollar-sign me-1"></i> HackerOne 💰
+                </a>
                 <a href="quiz.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
                     <i class="fas fa-graduation-cap me-1"></i> الاختبار والشهادة 🎓
                 </a>
-                <a href="../docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-info btn-sm fw-bold text-nowrap">
-                    <i class="fas fa-file-pdf me-1 text-danger"></i> دليل المختبر PDF
+                <a href="settings.php" class="btn btn-outline-secondary btn-sm fw-bold text-nowrap" title="إعدادات المختبر">
+                    <i class="fas fa-cog me-1"></i> إعدادات
                 </a>
-                <a href="../reset.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
-                    <i class="fas fa-redo-alt me-1"></i> إعادة ضبط البيانات
+                <a href="../docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-primary btn-sm fw-bold text-nowrap">
+                    <i class="fas fa-file-pdf me-1 text-danger"></i> دليل PDF
+                </a>
+                <a href="../reset.php" class="btn btn-outline-danger btn-sm fw-bold text-nowrap">
+                    <i class="fas fa-redo-alt me-1"></i> ضبط
                 </a>
             </div>
         </div>
@@ -309,6 +318,33 @@ $sec_level = get_security_level();
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'xxe.php' ? 'active' : '' ?>" href="xxe.php">
+                        <span><i class="fas fa-file-code me-2 text-info"></i> 14. حقن الكيانات (XXE)</span>
+                        <?php if (is_flag_solved('xxe')): ?>
+                            <span class="badge badge-solved"><i class="fas fa-check"></i></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'jwt.php' ? 'active' : '' ?>" href="jwt.php">
+                        <span><i class="fas fa-id-badge me-2 text-warning"></i> 15. تزوير التوكن (JWT)</span>
+                        <?php if (is_flag_solved('jwt')): ?>
+                            <span class="badge badge-solved"><i class="fas fa-check"></i></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'ssti.php' ? 'active' : '' ?>" href="ssti.php">
+                        <span><i class="fas fa-cubes me-2 text-danger"></i> 16. حقن القوالب (SSTI)</span>
+                        <?php if (is_flag_solved('ssti')): ?>
+                            <span class="badge badge-solved"><i class="fas fa-check"></i></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+
                 <!-- Evaluation & Certification Section -->
                 <li class="nav-item my-2 border-top border-secondary pt-2">
                     <small class="text-warning text-uppercase fw-bold px-3 d-block mb-1"><i class="fas fa-award me-1"></i> التقييم والاعتماد</small>
@@ -324,6 +360,26 @@ $sec_level = get_security_level();
                 <li class="nav-item">
                     <a class="nav-link <?= $current_page == 'certificate.php' ? 'active' : '' ?>" href="certificate.php">
                         <span><i class="fas fa-certificate me-2 text-info"></i> الشهادة الرقمية المعتمدة</span>
+                    </a>
+                </li>
+
+                <!-- Hacker Arsenal & Settings Section -->
+                <li class="nav-item my-2 border-top border-secondary pt-2">
+                    <small class="text-info text-uppercase fw-bold px-3 d-block mb-1"><i class="fas fa-crosshairs me-1"></i> الأدوات والمكافآت</small>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'tools.php' ? 'active' : '' ?>" href="tools.php">
+                        <span><i class="fas fa-terminal me-2 text-info"></i> ترسانة أدوات الهاكر</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'bounty.php' ? 'active' : '' ?>" href="bounty.php">
+                        <span><i class="fas fa-dollar-sign me-2 text-success"></i> مكافآت HackerOne</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'settings.php' ? 'active' : '' ?>" href="settings.php">
+                        <span><i class="fas fa-cog me-2 text-secondary"></i> إعدادات المختبر</span>
                     </a>
                 </li>
             </ul>

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $page_title = "تزوير الطلبات عبر المواقع (CSRF) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
@@ -54,15 +54,11 @@ $current_email = $stmt->fetchColumn();
 </div>
 
 <!-- مخطط معماري توضيحي لمسار هجوم CSRF -->
-<div class="card card-cyber mb-4 overflow-hidden border-info shadow-lg">
-    <div class="card-header bg-dark text-info fw-bold py-2 d-flex justify-content-between align-items-center">
-        <span><i class="fas fa-project-diagram me-2"></i> مخطط توضيحي: مسار هجوم Cross-Site Request Forgery (CSRF) والصفحات الخارجية</span>
-        <span class="badge bg-info text-dark">مخطط تعليمي للطلاب</span>
-    </div>
-    <div class="card-body p-0 text-center bg-black">
-        <img src="../assets/images/csrf_diagram.jpg" alt="CSRF Attack Flow Diagram" class="img-fluid" style="max-height: 380px; width: 100%; object-fit: contain;">
-    </div>
-</div>
+<?= render_diagram(
+    'csrf_diagram.jpg',
+    'مخطط توضيحي: مسار هجوم تزوير الطلبات عبر المواقع (CSRF Flow)',
+    'شرح تفاعلي لكيفية استدراج الضحية لموقع خارجي مزور يقوم بإرسال طلبات POST لتغيير البريد أو كلمة المرور مستغلاً ملفات الكوكي التلقائية للمتصفح.'
+); ?>
 
 <div class="card card-cyber mb-4">
     <div class="card-cyber-header d-flex justify-content-between align-items-center">

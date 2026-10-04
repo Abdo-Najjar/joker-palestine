@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $page_title = "تضمين الملفات واجتياز المسارات (LFI & Path Traversal) | مختبر الجوكر الفلسطيني";
 require_once __DIR__ . '/../includes/header.php';
 
@@ -44,6 +44,12 @@ if (isset($_GET['file'])) {
     </div>
     <span class="badge bg-danger fs-6 px-3 py-2"><i class="fas fa-file-code me-1"></i> ثغرة عالية الخطورة</span>
 </div>
+
+<?= render_diagram(
+    'lfi_diagram.jpg',
+    'مخطط توضيحي: مسار تدفق هجوم تضمين الملفات واجتياز المسارات (LFI & Path Traversal)',
+    'شرح تفاعلي لآلية التسلل عبر مسارات النظام (../../) وقراءة ملفات الإعدادات والـ Passwords الحساسة خلف السيرفر.'
+); ?>
 
 <div class="card card-cyber mb-4">
     <div class="card-cyber-header d-flex justify-content-between align-items-center">

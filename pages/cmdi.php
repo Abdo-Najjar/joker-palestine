@@ -48,6 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ip'])) {
     <span class="badge bg-danger fs-6 px-3 py-2"><i class="fas fa-biohazard me-1"></i> ثغرة خطيرة جداً (RCE)</span>
 </div>
 
+<?= render_diagram(
+    'cmdi_diagram.jpg',
+    'مخطط توضيحي: مسار تدفق هجوم حقن أوامر النظام (Command Injection Attack Flow)',
+    'رسم معماري يوضح كيف تمرر البرمجية المصابة مدخلات المستخدم لدوال النظام (shell_exec) ويتم تنفيذ أوامر الطرفية بصلاحيات الخادم.'
+); ?>
+
 <div class="card card-cyber mb-4">
     <div class="card-cyber-header d-flex justify-content-between align-items-center">
         <h4 class="mb-0 text-info"><i class="fas fa-network-wired me-2"></i> أداة فحص الشبكة والاتصال (Ping Utility)</h4>
