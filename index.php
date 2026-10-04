@@ -121,6 +121,9 @@ unset($_SESSION['flash_msg']);
                 </ul>
             </div>
 
+            <a href="pages/quiz.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
+                <i class="fas fa-graduation-cap me-1"></i> الاختبار والشهادة 🎓
+            </a>
             <a href="docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-info btn-sm fw-bold text-nowrap">
                 <i class="fas fa-file-pdf me-1 text-danger"></i> دليل المختبر PDF
             </a>
@@ -222,6 +225,79 @@ unset($_SESSION['flash_msg']);
                         <h3 class="fw-bold text-white mb-0">PDF متكامل</h3>
                     </div>
                     <i class="fas fa-file-pdf fa-2x text-danger"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exam & Certificate Callout Banner -->
+    <div class="card card-cyber p-4 mb-5 border-warning shadow-lg" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(14, 20, 36, 0.95) 100%);">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge bg-warning text-dark fw-bold px-3 py-1 me-2">🎓 الاعتماد والتقييم</span>
+                    <span class="text-muted small">تقييم الكفاءة في أمن الويب (OWASP Top 10)</span>
+                </div>
+                <h4 class="text-white fw-bold mb-2">
+                    اختبار الكفاءة النهائي والشهادة الرقمية المعتمدة
+                </h4>
+                <p class="text-light text-opacity-75 mb-3">
+                    هل أتممت التحديات وتريد اختبار معلوماتك؟ خض الاختبار الأمني التفاعلي المكون من 7 أسئلة احترافية مع شروحات الحلول، واحصل فوراً على شهادة إتمام رقمية فاخرة باسمك قابلة للطباعة والحفظ كـ PDF بإعداد وتوقيع <strong class="text-warning">المهندس احمد سليم 🇵🇸</strong>!
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="pages/quiz.php" class="btn btn-warning fw-bold px-4 py-2 shadow">
+                        <i class="fas fa-pen-nib me-1"></i> خوض الاختبار الأمني الآن 🚀
+                    </a>
+                    <a href="pages/certificate.php" class="btn btn-outline-light fw-bold px-3 py-2">
+                        <i class="fas fa-award me-1 text-warning"></i> معاينة واستلام الشهادة 📜
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center mt-3 mt-lg-0">
+                <div class="p-3 rounded-circle bg-black bg-opacity-50 d-inline-flex align-items-center justify-content-center border border-warning shadow" style="width: 120px; height: 120px;">
+                    <i class="fas fa-certificate fa-3x text-warning"></i>
+                </div>
+                <div class="text-info small mt-2 fw-bold">معتمدة من مختبر الجوكر الفلسطيني</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cyberpunk Analytics & Progress Visualizer -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-7">
+            <div class="card card-cyber p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-white mb-0">
+                        <i class="fas fa-satellite-dish text-info me-2"></i> رادار تحليل المهارات السيبرانية
+                    </h5>
+                    <span class="badge bg-dark border border-info text-info">Radar Matrix</span>
+                </div>
+                <div style="height: 320px; position: relative;">
+                    <canvas id="skillsRadarChart"></canvas>
+                </div>
+                <small class="text-muted text-center d-block mt-2">
+                    توزيع الكفاءة في المجالات الستة: الحقن، أمن العميل، الصلاحيات، تزوير الخادم، الملفات، المنطق البرمجي
+                </small>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card card-cyber p-3 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-white mb-0">
+                        <i class="fas fa-bullseye text-warning me-2"></i> إحصائية صيد الأعلام
+                    </h5>
+                    <span class="badge bg-dark border border-warning text-warning">Flags Tracker</span>
+                </div>
+                <div style="height: 280px; position: relative;">
+                    <canvas id="flagsDoughnutChart"></canvas>
+                </div>
+                <div class="text-center mt-2">
+                    <span class="badge bg-success fs-6 px-3 py-2">
+                        <?= $score['solved'] ?> أعلام مكتشفة
+                    </span>
+                    <span class="badge bg-secondary fs-6 px-3 py-2 ms-2">
+                        <?= max(0, $score['total'] - $score['solved']) ?> أعلام متبقية
+                    </span>
                 </div>
             </div>
         </div>
@@ -481,7 +557,104 @@ unset($_SESSION['flash_msg']);
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="assets/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Radar Chart
+    const radarCtx = document.getElementById('skillsRadarChart');
+    if (radarCtx && typeof Chart !== 'undefined') {
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'حقن البيانات (SQLi / CMDi)',
+                    'أمن العميل (XSS / CSRF)',
+                    'التحكم بالصلاحيات (IDOR)',
+                    'تزوير الخادم (SSRF)',
+                    'أمن الملفات (LFI / Upload)',
+                    'المنطق البرمجي (Type Juggling)'
+                ],
+                datasets: [{
+                    label: 'مستوى التغطية والإتقان (%)',
+                    data: [85, 75, 90, 65, 80, 70],
+                    backgroundColor: 'rgba(6, 182, 212, 0.25)',
+                    borderColor: '#06b6d4',
+                    pointBackgroundColor: '#f59e0b',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#06b6d4',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' },
+                        pointLabels: {
+                            color: '#cbd5e1',
+                            font: { size: 12, family: "'Cairo', sans-serif" }
+                        },
+                        ticks: {
+                            color: '#64748b',
+                            backdropColor: 'transparent',
+                            stepSize: 20
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#e2e8f0',
+                            font: { family: "'Cairo', sans-serif" }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 2. Doughnut Chart
+    const doughnutCtx = document.getElementById('flagsDoughnutChart');
+    if (doughnutCtx && typeof Chart !== 'undefined') {
+        const solved = <?= (int)$score['solved'] ?>;
+        const total = <?= (int)$score['total'] ?>;
+        const remaining = Math.max(0, total - solved);
+        new Chart(doughnutCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['الأعلام المكتشفة', 'التحديات المتبقية'],
+                datasets: [{
+                    data: [solved, remaining],
+                    backgroundColor: ['#10b981', '#1e293b'],
+                    borderColor: ['#059669', '#334155'],
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '72%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#e2e8f0',
+                            font: { family: "'Cairo', sans-serif" }
+                        }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 <?php render_celebration(true); ?>
 </body>
 </html>

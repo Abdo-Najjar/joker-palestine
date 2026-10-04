@@ -1,10 +1,49 @@
-/* مختبر الجوكر الأمني - ستايل إضافي */
+/* ==============================================================================
+   مختبر الجوكر الفلسطيني | Joker Security Lab v2.0
+   نظام التباين اللوني والتصميم السيبراني الداكن (High-Contrast Cyberpunk Dark Theme)
+   إعداد وتطوير: المهندس احمد سليم 🇵🇸
+   ============================================================================== */
+
+/* متغيرات الثيم الأساسية للتغلب على افتراضيات Bootstrap الفاتحة */
+:root {
+    --bs-body-bg: #0b0f19;
+    --bs-body-color: #e2e8f0;
+    --bs-card-bg: #151c2c;
+    --bs-card-color: #e2e8f0;
+    --bs-card-border-color: #243149;
+    --bs-border-color: #243149;
+    --bs-secondary-color: #94a3b8;
+    --bs-code-color: #38bdf8;
+    --bs-link-color: #38bdf8;
+    --bs-link-hover-color: #7dd3fc;
+    --bg-main: #0b0f19;
+    --bg-card: #151c2c;
+    --bg-surface: #0e1424;
+    --bg-input: #080d18;
+    --border-color: #243149;
+    --border-bright: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --neon-cyan: #06b6d4;
+    --neon-green: #10b981;
+    --neon-amber: #f59e0b;
+    --neon-red: #ef4444;
+}
+
+body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Cairo', sans-serif;
+}
+
+/* شريط التمرير السيبراني المخصص */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #0b0f19;
+    background: #080c14;
 }
 ::-webkit-scrollbar-thumb {
     background: #1e293b;
@@ -14,28 +53,105 @@
     background: #0284c7;
 }
 
-.form-control, .form-select {
-    background-color: #0b0f19 !important;
-    border: 1px solid #334155 !important;
-    color: #f8fafc !important;
+/* ==============================================================================
+   1. توحيد خلفيات البطاقات ومنع أي خلفيات بيضاء في النظام
+   ============================================================================== */
+.card, .card-cyber {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: #06b6d4 !important;
-    box-shadow: 0 0 0 0.25rem rgba(6, 182, 212, 0.25) !important;
+.card-header, .card-cyber-header {
+    background-color: var(--bg-surface) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    color: #ffffff !important;
 }
 
-.badge-glow {
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+.card-body {
+    background-color: var(--bg-card) !important;
+    color: var(--text-secondary) !important;
 }
 
-.challenge-header {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
-    border-bottom: 2px solid #243149;
-    border-radius: 12px 12px 0 0;
+.card-footer {
+    background-color: var(--bg-surface) !important;
+    border-top: 1px solid var(--border-color) !important;
 }
 
-/* حماية الأكواد والبايلودات من الانعكاس وضبط الحاويات لمنع التجاوز الأفقي */
+/* ==============================================================================
+   2. حقول الإدخال والنماذج (Forms & Inputs) مع تباين عالي للنصوص التلميحية
+   ============================================================================== */
+.form-control, .form-select, textarea {
+    background-color: var(--bg-input) !important;
+    border: 1.5px solid var(--border-bright) !important;
+    color: #ffffff !important;
+    font-size: 0.95rem;
+    transition: all 0.25s ease-in-out;
+}
+
+/* تباين عالي وواضح جداً لنصوص الـ Placeholders لمنع خفوتها على الخلفية الداكنة */
+.form-control::placeholder,
+textarea::placeholder,
+input::placeholder {
+    color: #94a3b8 !important;
+    opacity: 0.95 !important;
+    font-style: italic;
+}
+
+.form-control:focus, .form-select:focus, textarea:focus {
+    background-color: #0c1424 !important;
+    border-color: var(--neon-cyan) !important;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.45) !important;
+    color: #ffffff !important;
+}
+
+.form-label {
+    color: #f1f5f9 !important;
+    font-weight: 600 !important;
+    margin-bottom: 6px !important;
+    font-size: 0.95rem;
+}
+
+form.bg-dark, .card form.bg-dark {
+    background-color: var(--bg-surface) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+/* ==============================================================================
+   3. الأكواد والـ Code Blocks (إلغاء اللون الوردي المزعج وضمان وضوح كامل)
+   ============================================================================== */
+code {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+    font-family: 'Consolas', 'Courier New', Courier, monospace !important;
+    color: #38bdf8 !important; /* لون سيان ناصع بدلاً من الوردي الافتراضي لـ Bootstrap */
+    background-color: #080d1a !important;
+    border: 1px solid #1e293b !important;
+    padding: 2px 7px !important;
+    border-radius: 5px !important;
+    font-size: 0.9em !important;
+    font-weight: 600 !important;
+}
+
+code.text-warning, .text-warning code {
+    color: #fbbf24 !important;
+    background-color: #171103 !important;
+    border: 1px solid #78350f !important;
+}
+
+code.text-danger, .text-danger code {
+    color: #f87171 !important;
+    background-color: #1c0a0a !important;
+    border: 1px solid #7f1d1d !important;
+}
+
+code.text-success, .text-success code {
+    color: #34d399 !important;
+    background-color: #061912 !important;
+    border: 1px solid #064e3b !important;
+}
+
 pre {
     direction: ltr !important;
     unicode-bidi: isolate !important;
@@ -48,6 +164,9 @@ pre {
     word-break: normal !important;
     word-wrap: normal !important;
     box-sizing: border-box !important;
+    background-color: #07090e !important;
+    border: 1px solid #243149 !important;
+    border-radius: 8px !important;
 }
 
 pre code {
@@ -58,40 +177,103 @@ pre code {
     width: 100% !important;
     white-space: pre !important;
     font-family: 'Consolas', 'Courier New', Courier, monospace !important;
-    line-height: 1.6 !important;
+    line-height: 1.65 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
 }
 
-code:not(pre code), kbd, samp, .code-ltr {
-    direction: ltr !important;
-    unicode-bidi: isolate !important;
-    text-align: left;
-    display: inline-block;
+/* ==============================================================================
+   4. التنبيهات والرسائل الإرشادية (Alerts) المتباينة
+   ============================================================================== */
+.alert {
+    border-radius: 8px;
+    font-size: 0.95rem;
 }
 
-/* بطاقة تسليم الأعلام في السايدبار */
-.sidebar-flag-card {
-    background-color: #0b0f19 !important;
-    border: 1px solid #1e293b !important;
-    transition: all 0.3s ease;
+.alert-secondary, .alert-dark {
+    background-color: #0d1424 !important;
+    border: 1px solid #243149 !important;
+    color: #e2e8f0 !important;
 }
 
-.sidebar-flag-card:hover {
-    border-color: #06b6d4 !important;
-    box-shadow: 0 0 15px rgba(6, 182, 212, 0.25) !important;
+.alert-info {
+    background-color: rgba(6, 182, 212, 0.12) !important;
+    border: 1px solid rgba(6, 182, 212, 0.45) !important;
+    color: #a5f3fc !important;
 }
 
-/* تنسيقات الفوتر لضمان وضوح كامل */
-footer {
+.alert-warning {
+    background-color: rgba(245, 158, 11, 0.12) !important;
+    border: 1px solid rgba(245, 158, 11, 0.45) !important;
+    color: #fef08a !important;
+}
+
+.alert-success {
+    background-color: rgba(16, 185, 129, 0.12) !important;
+    border: 1px solid rgba(16, 185, 129, 0.45) !important;
+    color: #a7f3d0 !important;
+}
+
+.alert-danger {
+    background-color: rgba(239, 68, 68, 0.14) !important;
+    border: 1px solid rgba(239, 68, 68, 0.45) !important;
+    color: #fecaca !important;
+}
+
+/* ==============================================================================
+   5. الجداول والقوائم (Tables & Lists)
+   ============================================================================== */
+.table, .table-dark-custom {
+    --bs-table-bg: transparent;
+    --bs-table-color: #e2e8f0;
+    --bs-table-border-color: #243149;
+    color: #e2e8f0 !important;
+}
+
+.table thead th, .table-dark th {
     background-color: #0e1424 !important;
-    border-top: 1px solid #243149 !important;
+    color: #38bdf8 !important;
+    border-bottom: 2px solid #243149 !important;
+    font-weight: 700;
 }
 
-footer .text-white-50 {
-    color: #cbd5e1 !important;
+.table tbody tr:hover td {
+    background-color: rgba(6, 182, 212, 0.05);
 }
 
-/* تحسين تباين النصوص التوضيحية وتفاصيل التحديات */
+.list-group-item, .list-group-item-dark {
+    background-color: #0d1424 !important;
+    border-color: #1e293b !important;
+    color: #e2e8f0 !important;
+}
+
+/* ==============================================================================
+   6. النوافذ المنبثقة والقوائم المنسدلة (Modals & Dropdowns)
+   ============================================================================== */
+.modal-content {
+    background-color: #121829 !important;
+    border: 1px solid var(--border-bright) !important;
+    color: #f8fafc !important;
+}
+
+.dropdown-menu-dark {
+    background-color: #0e1424 !important;
+    border: 1px solid var(--border-bright) !important;
+}
+
+/* ==============================================================================
+   7. ضبط تباين النصوص العامة (Text Contrast Utilities)
+   ============================================================================== */
 .text-muted, p.text-muted, small.text-muted, span.text-muted {
+    color: #94a3b8 !important;
+}
+
+.text-light {
+    color: #e2e8f0 !important;
+}
+
+.text-white-50 {
     color: #cbd5e1 !important;
 }
 
@@ -101,10 +283,20 @@ footer .text-white-50 {
     line-height: 1.6;
 }
 
-/* ضبط شريط التنقل العلوي ليكون مرتباً وواضحاً على كل الشاشات */
-.navbar-cyber .navbar-brand {
-    line-height: 1.2;
+/* بطاقة تسليم الأعلام في السايدبار */
+.sidebar-flag-card {
+    background-color: #080c16 !important;
+    border: 1px solid #1e293b !important;
+    transition: all 0.3s ease;
 }
 
+.sidebar-flag-card:hover {
+    border-color: var(--neon-cyan) !important;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.25) !important;
+}
 
-
+/* تنسيقات الفوتر لضمان وضوح كامل */
+footer {
+    background-color: #0e1424 !important;
+    border-top: 1px solid #243149 !important;
+}

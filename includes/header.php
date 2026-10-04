@@ -164,6 +164,9 @@ $sec_level = get_security_level();
             </ul>
 
             <div class="d-flex align-items-center gap-2">
+                <a href="quiz.php" class="btn btn-outline-warning btn-sm fw-bold text-nowrap">
+                    <i class="fas fa-graduation-cap me-1"></i> الاختبار والشهادة 🎓
+                </a>
                 <a href="../docs/joker_security_lab_manual.pdf" target="_blank" class="btn btn-outline-info btn-sm fw-bold text-nowrap">
                     <i class="fas fa-file-pdf me-1 text-danger"></i> دليل المختبر PDF
                 </a>
@@ -303,6 +306,24 @@ $sec_level = get_security_level();
                         <?php if (is_flag_solved('access_control')): ?>
                             <span class="badge badge-solved"><i class="fas fa-check"></i></span>
                         <?php endif; ?>
+                    </a>
+                </li>
+
+                <!-- Evaluation & Certification Section -->
+                <li class="nav-item my-2 border-top border-secondary pt-2">
+                    <small class="text-warning text-uppercase fw-bold px-3 d-block mb-1"><i class="fas fa-award me-1"></i> التقييم والاعتماد</small>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'quiz.php' ? 'active' : '' ?>" href="quiz.php">
+                        <span><i class="fas fa-graduation-cap me-2 text-warning"></i> اختبار الكفاءة النهائي</span>
+                        <?php if (!empty($_SESSION['quiz_passed'])): ?>
+                            <span class="badge bg-success"><i class="fas fa-check"></i></span>
+                        <?php endif; ?>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $current_page == 'certificate.php' ? 'active' : '' ?>" href="certificate.php">
+                        <span><i class="fas fa-certificate me-2 text-info"></i> الشهادة الرقمية المعتمدة</span>
                     </a>
                 </li>
             </ul>

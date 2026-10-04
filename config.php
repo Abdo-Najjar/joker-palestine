@@ -119,40 +119,43 @@ function render_code_comparison($vuln_code, $secure_code, $explanation) {
     $vuln_code = str_replace('\n', "\n", $vuln_code);
     $secure_code = str_replace('\n', "\n", $secure_code);
     ?>
-    <div class="card my-4 border-info shadow-sm">
-        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-            <span class="fw-bold text-info"><i class="fas fa-code me-2"></i> التحليل الأمني: الكود المصاب vs الكود الآمن</span>
+    <div class="card card-cyber my-4 border-info shadow-sm" style="background-color: #121829 !important; border: 1.5px solid #06b6d4 !important;">
+        <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #0c1222 !important; border-bottom: 1px solid #1e293b; padding: 12px 18px;">
+            <span class="fw-bold text-info fs-6"><i class="fas fa-code me-2"></i> التحليل الأمني: الكود المصاب vs الكود الآمن</span>
             <button class="btn btn-sm btn-outline-info fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#<?= $collapse_id ?>">
                 عرض / إخفاء الكود <i class="fas fa-chevron-down ms-1"></i>
             </button>
         </div>
         <div class="collapse" id="<?= $collapse_id ?>">
-            <div class="card-body">
-                <div class="alert alert-secondary py-2 mb-3">
-                    <strong class="text-white"><i class="fas fa-info-circle me-1 text-info"></i> شرح آلية الخلل والترقيع:</strong>
-                    <p class="mb-0 mt-1 text-light"><?= $explanation ?></p>
+            <div class="card-body p-4" style="background-color: #0e1424 !important;">
+                <div class="alert alert-info py-2 px-3 mb-3 d-flex align-items-start gap-2" style="background-color: rgba(6, 182, 212, 0.08) !important; border: 1px solid rgba(6, 182, 212, 0.35) !important;">
+                    <i class="fas fa-info-circle text-info fs-5 mt-1"></i>
+                    <div>
+                        <strong class="text-info d-block">شرح آلية الخلل والترقيع البرمجي:</strong>
+                        <div class="mt-1 text-light" style="color: #cbd5e1 !important; line-height: 1.6;"><?= $explanation ?></div>
+                    </div>
                 </div>
                 <div class="row g-3">
                     <div class="col-lg-6 mb-2">
-                        <div class="p-3 bg-danger bg-opacity-10 border border-danger rounded h-100 d-flex flex-column shadow-sm">
+                        <div class="p-3 rounded h-100 d-flex flex-column shadow-sm" style="background-color: #150d14 !important; border: 1.5px solid #ef4444 !important;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="text-danger fw-bold mb-0">
+                                <h6 class="fw-bold mb-0" style="color: #f87171 !important;">
                                     <i class="fas fa-bug me-1"></i> الكود المصاب (Vulnerable - Low)
                                 </h6>
                                 <span class="badge bg-danger">كود مصاب</span>
                             </div>
-                            <pre class="bg-black text-danger-subtle p-3 rounded small mb-0 flex-grow-1 border border-danger border-opacity-25" style="direction:ltr; text-align:left; max-height:350px; overflow:auto; width:100%; box-sizing:border-box;"><code class="font-monospace" style="direction:ltr; text-align:left; display:block; white-space:pre;"><?= htmlspecialchars(trim($vuln_code)) ?></code></pre>
+                            <pre class="p-3 rounded small mb-0 flex-grow-1" style="background-color: #07090e !important; border: 1px solid rgba(239, 68, 68, 0.35) !important; direction:ltr; text-align:left; max-height:350px; overflow:auto; width:100%; box-sizing:border-box;"><code class="font-monospace" style="color: #fca5a5 !important; direction:ltr; text-align:left; display:block; white-space:pre;"><?= htmlspecialchars(trim($vuln_code)) ?></code></pre>
                         </div>
                     </div>
                     <div class="col-lg-6 mb-2">
-                        <div class="p-3 bg-success bg-opacity-10 border border-success rounded h-100 d-flex flex-column shadow-sm">
+                        <div class="p-3 rounded h-100 d-flex flex-column shadow-sm" style="background-color: #091714 !important; border: 1.5px solid #10b981 !important;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="text-success fw-bold mb-0">
+                                <h6 class="fw-bold mb-0" style="color: #34d399 !important;">
                                     <i class="fas fa-shield-alt me-1"></i> الكود الآمن (Secure - High)
                                 </h6>
                                 <span class="badge bg-success text-dark fw-bold">كود آمن ومرقّع</span>
                             </div>
-                            <pre class="bg-black text-success-subtle p-3 rounded small mb-0 flex-grow-1 border border-success border-opacity-25" style="direction:ltr; text-align:left; max-height:350px; overflow:auto; width:100%; box-sizing:border-box;"><code class="font-monospace" style="direction:ltr; text-align:left; display:block; white-space:pre;"><?= htmlspecialchars(trim($secure_code)) ?></code></pre>
+                            <pre class="p-3 rounded small mb-0 flex-grow-1" style="background-color: #07090e !important; border: 1px solid rgba(16, 185, 129, 0.35) !important; direction:ltr; text-align:left; max-height:350px; overflow:auto; width:100%; box-sizing:border-box;"><code class="font-monospace" style="color: #86efac !important; direction:ltr; text-align:left; display:block; white-space:pre;"><?= htmlspecialchars(trim($secure_code)) ?></code></pre>
                         </div>
                     </div>
                 </div>
@@ -171,14 +174,15 @@ function render_hints($hints) {
     $heading_id = "headingHints_" . $hint_idx;
     ?>
     <div class="my-4" id="<?= $accordion_id ?>">
-        <div class="card bg-dark bg-opacity-75 border border-secondary border-opacity-50 rounded-3 shadow-sm">
+        <div class="card card-cyber rounded-3 shadow-sm" style="background-color: #0d1424 !important; border: 1.5px solid #334155 !important;">
             <div class="card-header p-2 bg-transparent border-0" id="<?= $heading_id ?>">
                 <button class="btn btn-sm btn-outline-warning w-100 text-start d-flex justify-content-between align-items-center fw-bold py-2 px-3 collapsed" 
                         type="button" 
                         data-bs-toggle="collapse" 
                         data-bs-target="#<?= $collapse_id ?>" 
                         aria-expanded="false" 
-                        aria-controls="<?= $collapse_id ?>">
+                        aria-controls="<?= $collapse_id ?>"
+                        style="border-color: #f59e0b !important; color: #fbbf24 !important;">
                     <span>
                         <i class="fas fa-lightbulb text-warning me-2"></i>
                         💡 تلميحات ومساعدة للحل (مخفية افتراضياً)
@@ -189,13 +193,13 @@ function render_hints($hints) {
                 </button>
             </div>
             <div id="<?= $collapse_id ?>" class="collapse" aria-labelledby="<?= $heading_id ?>">
-                <div class="card-body pt-0 pb-3 px-3 border-top border-secondary border-opacity-25 mt-2">
-                    <div class="alert alert-secondary py-1 px-3 mb-2 small text-warning bg-black bg-opacity-50 border-0 rounded">
+                <div class="card-body pt-0 pb-3 px-3 border-top border-secondary border-opacity-25 mt-2" style="background-color: #0d1424 !important;">
+                    <div class="alert alert-secondary py-2 px-3 mb-3 small text-warning rounded" style="background-color: #070a12 !important; border: 1px solid #334155 !important; color: #fbbf24 !important;">
                         <i class="fas fa-eye-slash me-1"></i> تم إخفاء هذه التلميحات افتراضياً لتتمكن من التفكير وتجربة الحل بنفسك أولاً:
                     </div>
-                    <ol class="mb-0 text-light ps-3">
+                    <ol class="mb-0 text-light ps-3" style="color: #e2e8f0 !important;">
                         <?php foreach ($hints as $hint): ?>
-                            <li class="mb-2" style="font-size: 0.93rem;"><?= $hint ?></li>
+                            <li class="mb-2" style="font-size: 0.95rem; color: #e2e8f0 !important; line-height: 1.7;"><?= $hint ?></li>
                         <?php endforeach; ?>
                     </ol>
                 </div>
